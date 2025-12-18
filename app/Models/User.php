@@ -60,4 +60,8 @@ class User extends Authenticatable
     {
         return $this->role === self::ROLE_VENDOR;
     }
+
+    public function produk(){
+        return $this->belongsToMany(Produk::class,  'tabel_pivot_favorites', 'user_id', 'produk_id');
+    }
 }
