@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tabel_pivot_favorites', function (Blueprint $table) {
+        Schema::create('kategori_produk', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('produk_id')->constrained('tabel_produk')->onDelete('cascade');
-            $table->unique(['user_id', 'produk_id']);
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabel_pivot_favorites');
+        Schema::dropIfExists('kategori_produk');
     }
 };
