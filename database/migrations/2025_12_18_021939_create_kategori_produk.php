@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('kategori_produk', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_kategori');
+            $table->foreignId('parent_id')->nullable()->constrained('kategori_produk')->nullOnDelete();
             $table->timestamps();
         });
     }
