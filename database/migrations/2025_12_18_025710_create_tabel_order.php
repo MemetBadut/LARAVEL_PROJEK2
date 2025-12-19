@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->onDelete('cascade');
             $table->float('total_harga');
-            $table->enum('status_order', ['pending', 'diproses', 'terbayar', 'dikirim', 'dibatalkan', 'selesai'])->default('pending');
+            $table->enum('order_status', ['pending', 'diproses', 'terbayar', 'dikirim', 'dibatalkan', 'selesai'])->default('pending');
             $table->timestamps();
         });
     }

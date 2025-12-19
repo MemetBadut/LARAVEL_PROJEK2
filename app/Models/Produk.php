@@ -9,6 +9,29 @@ class Produk extends Model
 {
     /** @use HasFactory<\Database\Factories\ProdukFactory> */
     use HasFactory;
-    protected $fillable = [''];
+    protected $fillable = [
+        'vendor_id',
+        'kategori_id',
+        'nama_produk',
+        'slug',
+        'harga_produk',
+        'stok_produk',
+        'deskripsi_produk',
+        'status_produk'
+    ];
 
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriProduk::class, 'kategori_id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'produk_id');
+    }
 }
