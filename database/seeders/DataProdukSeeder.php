@@ -12,6 +12,6 @@ class DataProdukSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        'vendor_id';
     }
 }

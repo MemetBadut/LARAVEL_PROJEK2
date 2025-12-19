@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tabel_produk', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vendor_id')->constrained('tabel_vendor')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('kategori_produk')->onDelete('cascade');
+            $table->foreignId('kategori_id')->constrained('kategori_produk')->onDelete('cascade');
             $table->string('nama_produk');
             $table->string('slug')->unique();
             $table->float('harga_produk');

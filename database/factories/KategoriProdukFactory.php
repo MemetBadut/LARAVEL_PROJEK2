@@ -17,7 +17,9 @@ class KategoriProdukFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nama_kategori' => fake()->word(),
+            'parent_id' => null,
+            'slug' => fake()->slug(),
         ];
     }
 }
