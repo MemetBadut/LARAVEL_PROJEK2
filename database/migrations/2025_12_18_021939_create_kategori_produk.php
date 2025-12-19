@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_kategori');
             $table->foreignId('parent_id')->nullable()->constrained('kategori_produk')->nullOnDelete();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
