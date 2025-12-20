@@ -21,12 +21,12 @@ class ProdukFactory extends Factory
         return [
             'vendor_id' => Vendor::factory(),
             'category_id' => KategoriProduk::factory(),
-            'nama_produk' => $this->faker->word(),
-            'slug' => $this->faker->slug(),
-            'harga_produk' => $this->faker->numberBetween(10000, 100000),
-            'stok_produk' => $this->faker->numberBetween(1, 100),
-            'deskripsi_produk' => $this->faker->paragraph(),
-            'status_produk' => $this->faker->randomElement(['tersimpan', 'tersedia', 'habis']),
+            'nama_produk' => fake()->word(),
+            'slug' => fake()->unique()->slug(),
+            'harga_produk' => fake()->numberBetween(10000, 100000),
+            'stok_produk' => fake()->numberBetween(1, 100),
+            'deskripsi_produk' => fake()->paragraph(),
+            'status_produk' => fake()->randomElement(['tersimpan', 'tersedia', 'habis']),
         ];
     }
 }

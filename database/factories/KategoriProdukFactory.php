@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\KategoriProduk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,9 @@ class KategoriProdukFactory extends Factory
     {
         return [
             'nama_kategori' => fake()->word(),
-            'parent_id' => null,
-            'slug' => fake()->slug(),
+            'parent_id' => fake()->boolean(30)
+            ? KategoriProduk::factory() : null,
+            'slug' => fake()->unique()->slug(),
         ];
     }
 }
