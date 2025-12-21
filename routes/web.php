@@ -14,7 +14,3 @@ Route::get('/dashboard', function () {
 
 Route::resource('/products', ProdukController::class);
 
-
-// Route::middleware(['auth', 'role:' . User::ROLE_ADMIN . ',' . User::ROLE_VENDOR])->group(function () {
-//     Route::resource('/products', ProdukController::class);
-// });

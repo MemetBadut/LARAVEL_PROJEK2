@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
 
-class KategoriProdukController extends Controller
+class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +33,7 @@ class KategoriProdukController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(KategoriProduk $kategoriProduk)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class KategoriProdukController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(KategoriProduk $kategoriProduk)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class KategoriProdukController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, KategoriProduk $kategoriProduk)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class KategoriProdukController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KategoriProduk $kategoriProduk)
+    public function destroy(string $id)
     {
         //
     }
