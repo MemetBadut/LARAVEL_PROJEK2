@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\HomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('/products', ProdukController::class);
+Route::get('/produk');
+
+
 
