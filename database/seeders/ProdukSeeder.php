@@ -15,12 +15,19 @@ class ProdukSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = KategoriProduk::all();
+        $categories = KategoriProduk::pluck('id');
 
-        Vendor::chunk(10, function($vendor) use ($categories) {
+        // Vendor::chunk(10, function($vendor) use ($categories) {
+        //     Produk::factory(50)->create([
+        //         'vendor_id' => $vendor->id,
+        //         'kategori_id' => $categories->random()->id,
+        //     ]);
+        // });
+
+        Vendor::all()->each(function ($vendor) use ($categories){
             Produk::factory(50)->create([
                 'vendor_id' => $vendor->id,
-                'kategori_id' => $categories->random()->id,
+                'kategori_id' => $categories->random(),
             ]);
         });
     }

@@ -16,6 +16,8 @@ class Order extends Model
         'order_status'
     ];
 
+    protected $table = 'tabel_order';
+
     public function customer() {
         return $this->belongsTo(User::class, 'customer_id');
     }

@@ -20,7 +20,7 @@ class ProdukFactory extends Factory
     {
         return [
             'vendor_id' => Vendor::factory(),
-            'category_id' => KategoriProduk::factory(),
+            'kategori_id' => KategoriProduk::factory(),
             'nama_produk' => fake()->word(),
             'slug' => fake()->unique()->slug(),
             'harga_produk' => fake()->numberBetween(10000, 100000),

@@ -16,6 +16,8 @@ class KategoriProduk extends Model
         'slug'
     ];
 
+    protected $table = 'kategori_produk';
+
     public function produk()
     {
         return $this->hasMany(Produk::class, 'kategori_id');

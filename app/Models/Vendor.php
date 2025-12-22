@@ -9,5 +9,6 @@ class Vendor extends Model
 {
     /** @use HasFactory<\Database\Factories\VendorFactory> */
     use HasFactory;
-    protected $fillable = [];
+    protected $fillable = ['nama_vendor', 'user_id'];
+    protected $table = 'tabel_vendor';
 }

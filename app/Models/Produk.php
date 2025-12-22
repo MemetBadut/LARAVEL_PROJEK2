@@ -20,6 +20,8 @@ class Produk extends Model
         'status_produk'
     ];
 
+    protected $table = 'tabel_produk';
+
     public function kategori()
     {
         return $this->belongsTo(KategoriProduk::class, 'kategori_id');

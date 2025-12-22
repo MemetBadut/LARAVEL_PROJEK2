@@ -17,6 +17,8 @@ class OrderItem extends Model
         'harga_satuan',
     ];
 
+    protected $table = 'tabel_order_barang';
+
     public function order() {
         return $this->belongsTo(Order::class, 'order_id');
     }
