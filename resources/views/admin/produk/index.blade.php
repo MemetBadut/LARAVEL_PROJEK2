@@ -1,44 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Daftar Produk</h2>
-                <a href="{{ route('admin.produk.create') }}" class="btn btn-primary mb-3">Tambah Produk</a>
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Daftar Produk</h2>
+                <a href="{{ route('admin.produk.create') }}"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+                    Tambah Produk
+                </a>
+            </div>
 
-                <table class="table table-bordered">
-                    <thead>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th>No</th>
-                            <th>Nama Produk</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama
+                                Produk</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stok
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($produks as $key => $produk)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $produk->nama }}</td>
-                                <td>Rp {{ number_format($produk->harga, 0, ',', '.') }}</td>
-                                <td>{{ $produk->stok }}</td>
-                                <td>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $key + 1 }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ $produk->nama }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp
+                                    {{ number_format($produk->harga, 0, ',', '.') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $produk->stok }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
                                     <a href="{{ route('admin.produk.edit', $produk->id) }}"
-                                        class="btn btn-sm btn-warning">Edit</a>
+                                        class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition">
+                                        Edit
+                                    </a>
                                     <form action="{{ route('admin.produk.destroy', $produk->id) }}" method="POST"
-                                        style="display:inline;">
+                                        class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Yakin hapus?')">Hapus</button>
+                                        <button type="submit" onclick="return confirm('Yakin hapus?')"
+                                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">
+                                            Hapus
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center">Tidak ada data</td>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada data</td>
                             </tr>
                         @endforelse
                     </tbody>
