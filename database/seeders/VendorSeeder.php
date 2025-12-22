@@ -14,10 +14,11 @@ class VendorSeeder extends Seeder
      */
     public function run(): void
     {
-        User::where('role', 'vendor')->get()->each(function ($user) {
-            Vendor::factory()->create([
-                'user_id' => $user->id,
-            ]);
-        });
+        User::where('role', User::ROLE_VENDOR)
+            ->each(function ($user) {
+                Vendor::factory()->create([
+                    'user_id' => $user->id,
+                ]);
+            });
     }
 }
