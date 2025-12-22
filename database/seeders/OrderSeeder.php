@@ -20,7 +20,7 @@ class OrderSeeder extends Seeder
 
         foreach ($customers as $customer) {
             Order::factory()->create([
-                'customer_id' => $customer->id,
+                'usr_id' => $customer->id,
             ]);
         }
     }

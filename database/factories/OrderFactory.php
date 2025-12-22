@@ -18,7 +18,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id' => User::factory(),
+            'user_id' => User::factory(),
             'total_harga' => 0,
             'order_status' => fake()->randomElement(['pending', 'diproses', 'terbayar', 'dibatalkan', 'selesai']),
         ];

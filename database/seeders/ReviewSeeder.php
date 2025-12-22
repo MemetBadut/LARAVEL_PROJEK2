@@ -17,7 +17,7 @@ class ReviewSeeder extends Seeder
         $orderItems = OrderItem::with('order')->get();
         foreach($orderItems as $item){
             Review::factory()->create([
-                'customer_id' => $item->order->customer_id,
+                'user_id' => $item->order->user_id,
                 'produk_id' => $item->produk_id,
             ]);
         }

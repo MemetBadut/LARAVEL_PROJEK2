@@ -11,7 +11,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillabel = [
-        'customer_id',
+        'user_id',
         'total_harga',
         'order_status'
     ];
@@ -19,7 +19,7 @@ class Order extends Model
     protected $table = 'tabel_order';
 
     public function customer() {
-        return $this->belongsTo(User::class, 'customer_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function orderItems() {
