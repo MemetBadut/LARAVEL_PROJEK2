@@ -59,7 +59,7 @@
                     @endauth
 
                     <!-- Cart -->
-                    <a href="{{ route('cart.index') }}"
+                    <a href="{{ route('') }}"
                         class="flex items-center hover:text-blue-200 transition relative">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -116,7 +116,7 @@
                         <a href="{{ route('register') }}" class="hover:text-blue-200 transition">Register</a>
                     @else
                         <a href="{{ route('profile.index') }}" class="hover:text-blue-200 transition">Profile</a>
-                        <a href="{{ route('orders.index') }}" class="hover:text-blue-200 transition">Pesanan Saya</a>
+                        <a href="#" class="hover:text-blue-200 transition">Pesanan Saya</a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" class="text-left hover:text-blue-200 transition">Logout</button>
