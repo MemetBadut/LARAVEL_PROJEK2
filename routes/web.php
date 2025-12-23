@@ -13,16 +13,16 @@ use App\Http\Controllers\Admin\ProdukController as AdminProductController;
 
 // Bagian Untuk yang tidak ada yang login
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/produk', [ProdukController::class, 'index']);
-Route::get('/produk/{id}', [ProdukController::class, 'show']);
+Route::get('/produk', [ProdukController::class, 'index'])->name('products.index');
+Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('products.show');
 
 // Route untuk User yang udah logi
 Route::middleware('auth')->group(function () {
     // Untuk Keranjang
     Route::get('/keranjang', [CartController::class, 'index']);
-    Route::post('/keranjang/tambah/{produk_id}', [CartController::class, 'addToCart']);
-    Route::post('/keranjang/update/{produk_id}', [CartController::class, 'updateCart']);
-    Route::delete('/keranjang/hapus/{produk_id}', [CartController::class, 'removeFromCart']);
+    Route::post('/keranjang/tambah/{produk}', [CartController::class, 'addToCart']);
+    Route::post('/keranjang/update/{produk}', [CartController::class, 'updateCart']);
+    Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart']);
 
     // Untuk checkout
     Route::get('/checkout', [CartController::class, 'checkoutForm']);
@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     // Untuk Order
     Route::get('/orders', [OrderController::class, 'orderHistory']);
-    Route::post('/orders/{order_id}', [OrderController::class, 'orderHistory']);
+    Route::post('/orders/{order}', [OrderController::class, 'orderHistory']);
 });
 
 Route::middleware(['auth', 'role:vendor'])
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'role:vendor'])
     ->name('vendor.')
     ->group(function () {
 
-        Route::get('/dashboard', [VendorDashboardController::class, 'index']);
+        Route::get('/dashboard', [VendorDashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('/products', VendorProductController::class);
     });
@@ -48,7 +48,7 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/dashboard', [AdminDashboardController::class, 'index']);
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard')        ;
 
         Route::resource('/products', AdminProductController::class);
     });

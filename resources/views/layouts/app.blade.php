@@ -46,14 +46,14 @@
 
                     @auth
                         @if (auth()->user()->role == 'admin')
-                            <a href="{{ route('admin.produk.dashboard') }}"
+                            <a href="{{ route('admin.dashboard') }}"
                                 class="hover:text-blue-200 transition">Dashboard</a>
-                            <a href="{{ route('admin.produk.index') }}" class="hover:text-blue-200 transition">Kelola
+                            <a href="{{ route('admin.products.index') }}" class="hover:text-blue-200 transition">Kelola
                                 Produk</a>
                         @endif
 
                         @if (auth()->user()->role == 'vendor')
-                            <a href="{{ route('vendor.produk.index') }}" class="hover:text-blue-200 transition">Produk
+                            <a href="{{ route('vendor.dashboard') }}" class="hover:text-blue-200 transition">Produk
                                 Saya</a>
                         @endif
                     @endauth
@@ -110,7 +110,7 @@
             <div id="mobile-menu" class="hidden md:hidden pb-4">
                 <div class="flex flex-col space-y-2">
                     <a href="{{ url('/') }}" class="hover:text-blue-200 transition">Home</a>
-                    <a href="{{ route('produk.index') }}" class="hover:text-blue-200 transition">Produk</a>
+                    <a href="{{ route('products.index') }}" class="hover:text-blue-200 transition">Produk</a>
                     @guest
                         <a href="{{ route('login') }}" class="hover:text-blue-200 transition">Login</a>
                         <a href="{{ route('register') }}" class="hover:text-blue-200 transition">Register</a>
