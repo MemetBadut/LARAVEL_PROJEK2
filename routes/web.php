@@ -44,6 +44,7 @@ Route::middleware(['auth', 'role:vendor'])
 
         Route::resource('/products', VendorProductController::class);
     });
+
 // Route untuk Admin
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
@@ -54,12 +55,14 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::resource('/products', AdminProductController::class);
     });
+
 // Untuk Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
 // Untuk keranjang
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

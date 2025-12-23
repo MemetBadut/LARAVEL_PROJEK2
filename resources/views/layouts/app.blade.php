@@ -59,7 +59,7 @@
                     @endauth
 
                     <!-- Cart -->
-                    <a href="{{ route('') }}"
+                    <a href="{{ route('cart.index') }}"
                         class="flex items-center hover:text-blue-200 transition relative">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
