@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
@@ -12,6 +13,14 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProdukController as AdminProductController;
 use App\Http\Controllers\ProfileController;
 
+// Rute untuk Login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Rute untuk Register
+Route::get('/register', [AuthController::class, 'index'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
 // Bagian Untuk yang tidak ada yang login
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk', [ProdukController::class, 'index'])->name('products.index');
@@ -20,7 +29,7 @@ Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('products.sh
 // Route untuk User yang udah logi
 Route::middleware('auth')->group(function () {
     // Untuk Keranjang
-    Route::get('/keranjang', [CartController::class, 'index']);
+    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
     Route::post('/keranjang/tambah/{produk}', [CartController::class, 'addToCart']);
     Route::post('/keranjang/update/{produk}', [CartController::class, 'updateCart']);
     Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart']);
@@ -62,13 +71,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-
-// Untuk keranjang
-Route::middleware('auth')->group(function () {
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{produk}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::patch('/cart/update/{produk}', [CartController::class, 'updateCart'])->name('cart.update');
-    Route::delete('/cart/remove/{produk}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-});
-
 
