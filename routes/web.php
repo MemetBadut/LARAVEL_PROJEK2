@@ -18,7 +18,7 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 // Rute untuk Register
-Route::get('/register', [AuthController::class, 'index'])->name('register');
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
 // Bagian Untuk yang tidak ada yang login
