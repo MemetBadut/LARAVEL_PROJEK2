@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -17,9 +18,9 @@ class CartController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function addToCart(Produk $produk)
     {
-        //
+        return  view('cart.add', compact('produk'));
     }
 
     /**

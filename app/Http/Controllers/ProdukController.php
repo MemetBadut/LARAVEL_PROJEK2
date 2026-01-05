@@ -31,7 +31,9 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     'nama_produk'
+        // ])
     }
 
     /**
@@ -39,7 +41,6 @@ class ProdukController extends Controller
      */
     public function show(Produk $produk)
     {
-
         return view('products.show', compact('produk'));
     }
 

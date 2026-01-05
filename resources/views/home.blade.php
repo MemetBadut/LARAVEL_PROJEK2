@@ -15,7 +15,7 @@
         <!-- Featured Products -->
         <h2 class="text-3xl font-bold text-gray-800 mb-6">Produk Unggulan</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {{-- @foreach ($featuredProducts as $product)
+            @foreach ($produks as $product)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
                     @if ($product->gambar)
                         <img src="{{ asset('storage/' . $product->gambar) }}" class="w-full h-48 object-cover"
@@ -26,16 +26,16 @@
                         </div>
                     @endif
                     <div class="p-4">
-                        <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $product->nama }}</h5>
+                        <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $product->nama_produk }}</h5>
                         <p class="text-2xl font-bold text-blue-600 mb-4">Rp
-                            {{ number_format($product->harga, 0, ',', '.') }}</p>
+                            {{ number_format($product->harga_produk, 0, ',', '.') }}</p>
                         <a href="{{ route('products.show', $product->id) }}"
                             class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center px-4 py-2 rounded-lg transition">
                             Lihat Detail
                         </a>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach
         </div>
     </div>
 @endsection

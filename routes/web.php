@@ -30,9 +30,9 @@ Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('products.sh
 Route::middleware('auth')->group(function () {
     // Untuk Keranjang
     Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/keranjang/tambah/{produk}', [CartController::class, 'addToCart']);
-    Route::post('/keranjang/update/{produk}', [CartController::class, 'updateCart']);
-    Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart']);
+    Route::post('/keranjang/tambah/{produk}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/keranjang/update/{produk}', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart'])->name('cart.delete');
 
     // Untuk checkout
     Route::get('/checkout', [CartController::class, 'checkoutForm']);

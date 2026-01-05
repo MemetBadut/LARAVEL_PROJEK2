@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('harga_produk');
             $table->integer('stok_produk');
             $table->text('deskripsi_produk');
+            $table->string('gambar')->nullable();
             $table->enum('status_produk', ['tersedia', 'tersimpan','habis'])->default('tersedia');
             $table->timestamps();
         });

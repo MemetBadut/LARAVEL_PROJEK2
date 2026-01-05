@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,7 +12,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $produks = Produk::select('id', 'nama_produk', 'harga_produk', 'gambar')
+            ->orderBy('created_at', 'desc')
+            ->take(8)
+            ->get();
+
+        return view('home', compact('produks'));
     }
 
     /**
