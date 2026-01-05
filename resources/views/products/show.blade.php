@@ -92,8 +92,7 @@
             <!-- Form Pembelian -->
             <form action="{{ route('cart.add', $produk->id) }}" method="POST">
                 @csrf
-
-                @if($product->stok_produk > 0)
+                @if($produk->stok_produk > 0)
                 <div class="mb-6">
                     <label for="quantity" class="block text-gray-700 font-semibold mb-2">Jumlah</label>
                     <div class="flex items-center space-x-4">

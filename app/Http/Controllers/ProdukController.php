@@ -13,8 +13,7 @@ class ProdukController extends Controller
     public function index()
     {
         $products = Produk::with(['vendor' , 'kategori'])
-        ->get();
-        $products = Produk::paginate(8);
+        ->paginate(10);
 
         return view('products.index', compact('products'));
     }
@@ -42,6 +41,8 @@ class ProdukController extends Controller
      */
     public function show(Produk $produk)
     {
+        // dd($produk);
+        
         return view('products.show', compact('produk'));
     }
 
