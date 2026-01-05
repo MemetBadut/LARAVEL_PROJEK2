@@ -12,8 +12,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $products = Produk::with(['vendor' , 'kategori'])->get();
-
+        $products = Produk::with(['vendor' , 'kategori'])
+        ->get();
+        $products = Produk::paginate(8);
 
         return view('products.index', compact('products'));
     }

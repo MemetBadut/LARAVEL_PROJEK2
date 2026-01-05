@@ -15,8 +15,8 @@
             </div>
             @endif
             <div class="p-4">
-                <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $product->nama }}</h5>
-                <p class="text-2xl font-bold text-blue-600 mb-4">Rp {{ number_format($product->harga, 0, ',', '.') }}</p>
+                <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $product->nama_produk }}</h5>
+                <p class="text-2xl font-bold text-blue-600 mb-4">Rp {{ number_format($product->harga_produk, 0, ',', '.') }}</p>
                 <div class="flex space-x-2">
                     <a href="{{ route('products.show', $product->id) }}" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center px-4 py-2 rounded-lg transition">
                         Detail

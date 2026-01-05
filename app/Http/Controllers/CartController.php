@@ -12,7 +12,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('cart.index');
+        $cart = session()->get('cart', []);
+
+        return view('cart.index', compact('cart'));
     }
 
     /**
@@ -20,7 +22,23 @@ class CartController extends Controller
      */
     public function addToCart(Produk $produk)
     {
-        return  view('cart.add', compact('produk'));
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$produk->id])){
+            $cart[$produk->id]['stok_produk'];
+        }else{
+            $cart[$produk->id] = [
+                'nama_produk' => $produk->nama_produk,
+                'harga_produk' => $produk->harga_produk,
+                'stok_produk' => 1,
+                'gambar' => $produk->gambar
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index')
+        ->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
 
     /**
