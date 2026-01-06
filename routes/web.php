@@ -24,13 +24,13 @@ Route::post('/register', [AuthController::class, 'register']);
 // Bagian Untuk yang tidak ada yang login
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk', [ProdukController::class, 'index'])->name('products.index');
-Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('products.show');
+Route::get('/produk/{produk}', [ProdukController::class, 'show'])->name('products.show');
 
 // Route untuk User yang udah logi
 Route::middleware('auth')->group(function () {
     // Untuk Keranjang
     Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/keranjang/tambah/{produk}', [CartController::class, 'show'])->name('cart.add');
+    Route::post('/keranjang/tambah/{produk}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/keranjang/update/{produk}', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart'])->name('cart.delete');
 
