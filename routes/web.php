@@ -17,6 +17,9 @@ use App\Http\Controllers\ProfileController;
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
+// Rute untuk Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 // Rute untuk Register
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -35,11 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart'])->name('cart.delete');
 
     // Untuk checkout
-    Route::get('/checkout', [CartController::class, 'checkoutForm']);
+    Route::get('/checkout', [CartController::class, 'checkoutForm'])->name('cart.checkout');
     Route::post('/checkout', [CartController::class, 'processCheckout']);
 
     // Untuk Order
-    Route::get('/orders', [OrderController::class, 'orderHistory']);
+    Route::get('/orders', [OrderController::class, 'orderHistory'])->name('orders.index');
     Route::post('/orders/{order}', [OrderController::class, 'orderHistory']);
 });
 

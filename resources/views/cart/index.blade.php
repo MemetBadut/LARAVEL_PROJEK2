@@ -23,21 +23,21 @@
                                 @php $total = 0; @endphp
                                 @foreach (session('cart') as $id => $item)
                                     @php
-                                        $subtotal = $item['harga'] * $item['quantity'];
+                                        $subtotal = $item['harga_produk'] * $item['stok_produk'];
                                         $total += $subtotal;
                                     @endphp
                                     <tr>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $item['nama'] }}</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $item['nama_produk'] }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-900">Rp
-                                            {{ number_format($item['harga'], 0, ',', '.') }}</td>
+                                            {{ number_format($item['harga_produk'], 0, ',', '.') }}</td>
                                         <td class="px-6 py-4">
-                                            <input type="number" value="{{ $item['quantity'] }}" min="1"
+                                            <input type="number" value="{{ $item['stok_produk'] }}" min="1"
                                                 class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
                                         </td>
                                         <td class="px-6 py-4 text-sm font-semibold text-gray-900">Rp
                                             {{ number_format($subtotal, 0, ',', '.') }}</td>
                                         <td class="px-6 py-4">
-                                            <form action="{{ route('cart.remove', $id) }}" method="POST">
+                                            <form action="{{ route('cart.delete', $id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -61,7 +61,7 @@
                             <span class="text-gray-600">Total:</span>
                             <strong class="text-2xl text-gray-900">Rp {{ number_format($total, 0, ',', '.') }}</strong>
                         </div>
-                        <a href="{{ route('checkout.index') }}"
+                        <a href="{{ route('cart.checkout') }}"
                             class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3 rounded-lg transition font-semibold">
                             Checkout
                         </a>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -25,9 +28,35 @@ class CheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function checkoutForm(Request $request)
     {
-        //
+        $cart = session('cart');
+
+        if(!$cart || count($cart) == 0){
+            return back()->with('error', 'Keranjang kosong, silakan tambahkan produk terlebih dahulu.');
+        }
+
+        DB::transaction(function () use ($cart) {
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'total_harga' => collect($cart)->sum(function ($item) {
+                    return $item['harga_produk'] * $item['stok_produk'];
+                }),
+                'status' => 'pending',
+            ]);
+
+            foreach($cart as $item){
+                $produk = Produk::lockForUpdate()->find($item['produk_id']);
+
+                if($produk->stok < $item['stok_produk']){
+                    throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
+                }
+
+                OrderItem::create([
+
+                ]);
+            }
+        });
     }
 
     /**

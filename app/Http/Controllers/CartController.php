@@ -20,18 +20,18 @@ class CartController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function addToCart(Produk $produk)
+    public function addToCart(Request $request, Produk $produk)
     {
         $cart = session()->get('cart', []);
 
         if(isset($cart[$produk->id])){
-            $cart[$produk->id]['stok_produk'];
+            $cart[$produk->id]['stok_produk'] += $request->stok_produk ?? 1;
         }else{
             $cart[$produk->id] = [
+                'produk_id' => $produk->id,
                 'nama_produk' => $produk->nama_produk,
                 'harga_produk' => $produk->harga_produk,
-                'stok_produk' => 1,
-                'gambar' => $produk->gambar
+                'stok_produk' => $request->stok_produk ?? 1,
             ];
         }
 
@@ -76,8 +76,16 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function removeFromCart(Produk $produk)
     {
-        //
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$produk->id])){
+            unset($cart[$produk->id]);
+            session()->put('cart', $cart);
+        }
+
+        return redirect()->route('cart.index')
+        ->with('success', 'Produk berhasil dihapus dari keranjang');
     }
 }
