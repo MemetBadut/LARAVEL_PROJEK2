@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
@@ -38,7 +40,7 @@ class CheckoutController extends Controller
 
         DB::transaction(function () use ($cart) {
             $order = Order::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'total_harga' => collect($cart)->sum(function ($item) {
                     return $item['harga_produk'] * $item['stok_produk'];
                 }),
@@ -48,15 +50,25 @@ class CheckoutController extends Controller
             foreach($cart as $item){
                 $produk = Produk::lockForUpdate()->find($item['produk_id']);
 
-                if($produk->stok < $item['stok_produk']){
+                if($produk->stok_produk < $item['stok_produk']){
                     throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
                 }
 
                 OrderItem::create([
-
+                    'order_id' => $order->id,
+                    'produk_id' => $produk->id,
+                    'stok_produk' => $item['stok_produk'],
+                    'harga_produk' => $item['harga_produk'],
                 ]);
+
+                $produk->decrement('stok_produk', $item['stok_produk']);
             }
         });
+
+        session()->forget('cart');
+
+        return redirect()->route('orders.index')
+            ->with('success', 'Checkout berhasil! Pesanan Anda sedang diproses.');
     }
 
     /**

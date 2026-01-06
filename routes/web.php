@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:vendor'])
     ->name('vendor.')
     ->group(function () {
 
-        Route::get('/dashboard', [VendorDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');
 
         Route::resource('/products', VendorProductController::class);
     });
@@ -63,7 +63,7 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'adminDashboard'])->name('dashboard');
 
         Route::resource('/products', AdminProductController::class);
     });
