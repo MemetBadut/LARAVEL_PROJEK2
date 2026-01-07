@@ -12,17 +12,17 @@
 
             <div class="bg-linear-to-r from-green-500 to-green-600 text-white rounded-lg shadow-lg p-6">
                 <h5 class="text-lg font-semibold mb-2">Total Penjualan</h5>
-                <h2 class="text-4xl font-bold">{{ $totalPenjualan }}</h2>
+                <h2 class="text-4xl font-bold">{{ $totalPenjualan ?? '-' }}</h2>
             </div>
 
             <div class="bg-linear-to-r from-yellow-500 to-yellow-600 text-white rounded-lg shadow-lg p-6">
                 <h5 class="text-lg font-semibold mb-2">Pending Orders</h5>
-                <h2 class="text-4xl font-bold">{{ $pendingOrders }}</h2>
+                <h2 class="text-4xl font-bold">{{ $pendingOrders ?? '-' }}</h2>
             </div>
 
             <div class="bg-linear-to-r from-purple-500 to-purple-600 text-white rounded-lg shadow-lg p-6">
                 <h5 class="text-lg font-semibold mb-2">Total Customer</h5>
-                <h2 class="text-4xl font-bold">{{ $totalCustomer }}</h2>
+                <h2 class="text-4xl font-bold">{{ $totalCustomer ?? '-' }}</h2>
             </div>
         </div>
 
@@ -55,4 +55,5 @@
             </div>
         </div>
     </div>
+    {{ $latestProduks->links() }}
 @endsection

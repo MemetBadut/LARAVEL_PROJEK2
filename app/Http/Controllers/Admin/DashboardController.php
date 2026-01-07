@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +13,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        $latestProduks = Produk::select('nama_produk', 'harga_produk', 'stok_produk', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+            $totalProduk = Produk::count('stok_produk');
+
+
+        return view('admin.dashboard', compact('latestProduks', 'totalProduk'));
     }
 
     /**

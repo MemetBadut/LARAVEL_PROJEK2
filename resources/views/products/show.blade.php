@@ -99,6 +99,7 @@
                         <button type="button" onclick="decreaseQty()" class="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-lg font-bold text-gray-700 transition">
                             -
                         </button>
+                        <input type="hidden" name="page" value="{{ request('page') }}">
                         <input type="number" id="quantity" name="quantity" value="1" min="1"
                             max="{{ $produk->stok_produk }}"
                             class="w-24 px-4 py-2 border-2 border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">

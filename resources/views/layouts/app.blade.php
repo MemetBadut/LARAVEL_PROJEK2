@@ -43,17 +43,16 @@
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="{{ url('/') }}" class="hover:text-blue-200 transition">Home</a>
                     <a href="{{ route('products.index') }}" class="hover:text-blue-200 transition">Produk</a>
-
                     @auth
                         @if (auth()->user()->role == 'admin')
-                            <a href="{{ route('admin.dashboard') }}"
+                            <a href="{{ route('admin.adminDashboard') }}"
                                 class="hover:text-blue-200 transition">Dashboard</a>
                             <a href="{{ route('admin.products.index') }}" class="hover:text-blue-200 transition">Kelola
                                 Produk</a>
                         @endif
 
                         @if (auth()->user()->role == 'vendor')
-                            <a href="{{ route('vendor.dashboard') }}" class="hover:text-blue-200 transition">Produk
+                            <a href="{{ route('vendor.vendorDashboard') }}" class="hover:text-blue-200 transition">Produk
                                 Saya</a>
                         @endif
                     @endauth

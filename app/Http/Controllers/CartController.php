@@ -22,23 +22,26 @@ class CartController extends Controller
      */
     public function addToCart(Request $request, Produk $produk)
     {
+        $stok_produk = (int) $request->quantity ?? 1;
+
         $cart = session()->get('cart', []);
 
-        if(isset($cart[$produk->id])){
-            $cart[$produk->id]['stok_produk'] += $request->stok_produk ?? 1;
-        }else{
+        if (isset($cart[$produk->id])) {
+            $cart[$produk->id]['stok_produk'] += $stok_produk;
+        } else {
             $cart[$produk->id] = [
                 'produk_id' => $produk->id,
                 'nama_produk' => $produk->nama_produk,
                 'harga_produk' => $produk->harga_produk,
-                'stok_produk' => $request->stok_produk ?? 1,
+                'stok_produk' => $stok_produk
             ];
         }
 
         session()->put('cart', $cart);
 
-        return redirect()->route('cart.index')
-        ->with('success', 'Produk berhasil ditambahkan ke keranjang');
+        return redirect()->route('cart.index', [
+            'page' => $request->page
+        ])->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
 
     /**
@@ -80,12 +83,12 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if(isset($cart[$produk->id])){
+        if (isset($cart[$produk->id])) {
             unset($cart[$produk->id]);
             session()->put('cart', $cart);
         }
 
         return redirect()->route('cart.index')
-        ->with('success', 'Produk berhasil dihapus dari keranjang');
+            ->with('success', 'Produk berhasil dihapus dari keranjang');
     }
 }
