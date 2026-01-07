@@ -49,6 +49,8 @@ class ProdukController extends Controller
      */
     public function edit(string $id)
     {
+        // Bikin logika untuk ngirim data nya!
+
         return view('admin.produk.edit', [
             'produk' => Produk::findOrFail($id)
         ]);
