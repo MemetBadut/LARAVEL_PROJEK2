@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -12,7 +13,11 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        //
+        $produks = Produk::select('id', 'nama_produk', 'harga_produk', 'stok_produk')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+            return view('admin.produk.index', compact('produks'));
     }
 
     /**
@@ -28,7 +33,7 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -58,8 +63,15 @@ class ProdukController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Produk $produk)
     {
-        //
+        $this->authorize('delete', $produk);
+
+        $produk->delete();
+
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Produk berhasil dihapus');
+
+
     }
 }

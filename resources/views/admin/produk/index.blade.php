@@ -5,7 +5,7 @@
         <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold text-gray-800">Daftar Produk</h2>
-                <a href="{{ route('admin.produk.create') }}"
+                <a href="{{ route('admin.products.create') }}"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
                     Tambah Produk
                 </a>
@@ -32,16 +32,16 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $key + 1 }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $produk->nama }}</td>
+                                    {{ $produk->nama_produk }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp
-                                    {{ number_format($produk->harga, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $produk->stok }}</td>
+                                    {{ number_format($produk->harga_produk, 0, ',', '.') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $produk->stok_produk }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                                    <a href="{{ route('admin.produk.edit', $produk->id) }}"
+                                    <a href="{{ route('admin.products.edit', $produk->id) }}"
                                         class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition">
                                         Edit
                                     </a>
-                                    <form action="{{ route('admin.produk.destroy', $produk->id) }}" method="POST"
+                                    <form action="{{ route('admin.products.destroy', $produk->id) }}" method="POST"
                                         class="inline-block">
                                         @csrf
                                         @method('DELETE')
