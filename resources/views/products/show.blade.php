@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-lg shadow-md p-6">
-        {{-- <div>
+        <div>
             @if ($produk->gambar)
                 <img src="{{ asset('storage/' . $produk->gambar) }}" class="w-full rounded-lg shadow-lg"
                     alt="{{ $produk->nama }}">
@@ -12,7 +12,7 @@
                     <span class="text-gray-400 text-xl">No Image</span>
                 </div>
             @endif
-        </div> --}}
+        </div>
 
         <div>
             <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ $produk->nama_produk }}</h2>

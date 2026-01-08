@@ -8,7 +8,7 @@
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
                     @if ($produk->gambar)
                         <img src="{{ asset('storage/' . $produk->gambar) }}" class="w-full h-48 object-cover"
-                            alt="{{ $produk->nama }}">
+                            alt="{{ $produk->nama_produk }}">
                     @else
                         <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
                             <span class="text-gray-400">No Image</span>

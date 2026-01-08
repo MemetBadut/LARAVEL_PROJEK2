@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -17,7 +18,7 @@ class ProdukController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-            return view('admin.produk.index', compact('produks'));
+        return view('admin.produk.index', compact('produks'));
     }
 
     /**
@@ -31,10 +32,7 @@ class ProdukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -49,8 +47,6 @@ class ProdukController extends Controller
      */
     public function edit(string $id)
     {
-        // Bikin logika untuk ngirim data nya!
-
         return view('admin.produk.edit', [
             'produk' => Produk::findOrFail($id)
         ]);
@@ -61,7 +57,40 @@ class ProdukController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //Cari Produk sesuai ID
+        $produk = Produk::findOrFail($id);
+
+        $rules = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga_produk' => 'required|numeric|min:0',
+            'stok_produk' => 'required|integer|min:0',
+            'deskripsi_produk' => 'nullable|string',
+        ]);
+
+        if($request->hasFile('gambar')){
+            $rules['gambar'] = 'sometimes|image|mime::jpeg,png,jpg,gif,svg|max:2048';
+        }
+        // Validasi Request
+        $validate = $request->validate($rules);
+
+        //Handle Gambar Produk
+        if($request->hasFile('gambar')){
+            //Hapus gambar lama kalau ada
+            if($produk->gambar){
+                Storage::delete($produk->gambar);
+            }
+            // Generate unique filename
+            $filename = time() . '_' . $request->file('gambar')->getClientOriginalName();
+            //Ini untuk simpen gambar
+            $path = $request->file('gambar')->storeAs('produk_images', $filename, 'public');
+            //Ini biar path nya nambah ke validate gambar
+            $validate['gambar'] = $path;
+        }
+
+        $produk->update($validate);
+
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Produk berhasil diperbarui');
     }
 
     /**
@@ -75,7 +104,5 @@ class ProdukController extends Controller
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Produk berhasil dihapus');
-
-
     }
 }

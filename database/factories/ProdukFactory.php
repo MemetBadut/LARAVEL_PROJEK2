@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\KategoriProduk;
 use App\Models\Vendor;
+use App\Models\KategoriProduk;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,17 @@ class ProdukFactory extends Factory
      */
     public function definition(): array
     {
+        if(!Storage::exists('public/produk')){
+            Storage::makeDirectory('public/produk');
+        }
+
+        $gambarProduk = [
+            'ipong.png',
+            'laptop.png',
+        ];
+
+        $namaGambar = fake()->randomElement($gambarProduk);
+
         return [
             'vendor_id' => Vendor::factory(),
             'kategori_id' => KategoriProduk::factory(),
@@ -26,6 +38,7 @@ class ProdukFactory extends Factory
             'harga_produk' => fake()->numberBetween(10000, 100000),
             'stok_produk' => fake()->numberBetween(1, 100),
             'deskripsi_produk' => fake()->paragraph(),
+            'gambar' => 'imageproduk/' . $namaGambar,
             'status_produk' => fake()->randomElement(['tersimpan', 'tersedia', 'habis']),
         ];
     }
