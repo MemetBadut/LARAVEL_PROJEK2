@@ -80,8 +80,7 @@
                                             class="w-12 h-12 shrink-0 bg-gray-100 rounded-lg flex items-center justify-center">
                                             @if ($produk->gambar)
                                                 <img src="{{ asset('storage/' . $produk->gambar) }}"
-                                                    alt="{{ $produk->nama_produk }}"
-                                                    class="w-12 h-12 rounded-lg object-cover">
+                                                    alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover">
                                             @else
                                                 <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">

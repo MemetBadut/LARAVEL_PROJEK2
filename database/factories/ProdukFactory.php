@@ -39,7 +39,7 @@ class ProdukFactory extends Factory
             'stok_produk' => fake()->numberBetween(1, 100),
             'deskripsi_produk' => fake()->paragraph(),
             'gambar' => 'imageproduk/' . $namaGambar,
-            'status_produk' => fake()->randomElement(['tersimpan', 'tersedia', 'habis']),
+            'status_produk' => fake()->randomElement(['hampir habis', 'tersedia', 'habis']),
         ];
     }
 }

@@ -14,7 +14,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produks = Produk::select('id', 'nama_produk', 'harga_produk', 'stok_produk')
+        $produks = Produk::select('id', 'nama_produk', 'harga_produk', 'stok_produk', 'gambar', 'status_produk')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

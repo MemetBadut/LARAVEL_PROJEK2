@@ -11,14 +11,18 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $latestProduks = Produk::select('nama_produk', 'harga_produk', 'stok_produk', 'created_at')
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+        $query = Produk::select('nama_produk', 'harga_produk', 'stok_produk', 'gambar', 'created_at');
+        $query->orderBy('created_at', 'desc');
 
-            $totalProduk = Produk::count('stok_produk');
+        if (request()->filled('status')) {
+            $query->where('status_produk', $request->status_produk);
+        }
 
+        $latestProduks = $query->paginate(5);
+
+        $totalProduk = Produk::count('stok_produk');
 
         return view('admin.dashboard', compact('latestProduks', 'totalProduk'));
     }
