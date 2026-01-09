@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('stok_produk');
             $table->text('deskripsi_produk');
             $table->string('gambar')->nullable();
-            $table->enum('status_produk', ['tersedia', 'hampir habis','habis'])->default('tersedia');
+            $table->enum('status_produk', ['tersedia', 'hampir_habis','habis'])->default('tersedia');
             $table->timestamps();
         });
     }

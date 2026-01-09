@@ -12,11 +12,30 @@ class ProdukController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $produks = Produk::select('id', 'nama_produk', 'harga_produk', 'stok_produk', 'gambar', 'status_produk')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $produks = Produk::query();
+
+        if($request->status === 'tersedia'){
+            $produks->tersedia();
+        }elseif($request->status === 'hampir_habis'){
+            $produks->hampirHabis();
+        }elseif($request->status === 'habis'){
+            $produks->habis();
+        }
+
+        // if($request->filled('cari')){
+        //     $produks->where('nama_produk', 'like', '%'.$request->cari . '%');
+        // }
+
+        if($request->ajax()){
+            return view('admin.produk.produklist.produk_list', [
+                'produks' => $produks->paginate(10)->withQueryString()
+            ])->render();
+        }
+
+
+        $produks = $produks->paginate(10)->withQueryString();
 
         return view('admin.produk.index', compact('produks'));
     }
@@ -67,16 +86,16 @@ class ProdukController extends Controller
             'deskripsi_produk' => 'nullable|string',
         ]);
 
-        if($request->hasFile('gambar')){
+        if ($request->hasFile('gambar')) {
             $rules['gambar'] = 'sometimes|image|mime::jpeg,png,jpg,gif,svg|max:2048';
         }
         // Validasi Request
         $validate = $request->validate($rules);
 
         //Handle Gambar Produk
-        if($request->hasFile('gambar')){
+        if ($request->hasFile('gambar')) {
             //Hapus gambar lama kalau ada
-            if($produk->gambar){
+            if ($produk->gambar) {
                 Storage::delete($produk->gambar);
             }
             // Generate unique filename

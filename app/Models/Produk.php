@@ -37,4 +37,60 @@ class Produk extends Model
     {
         return $this->hasMany(Review::class, 'produk_id');
     }
+
+    public function getStockStatusAttribute()
+    {
+        return match (true) {
+            $this->status_produk === 'tersedia'  && $this->stok_produk > 10 => 'tersedia',
+            $this->status_produk === 'tersedia' && $this->stok_produk > 0 || $this->stok_produk <= 10 => 'hampir_habis',
+            default => 'habis',
+        };
+    }
+
+    public function getStockBadgeAttribute()
+    {
+        return match ($this->stock_status) {
+            'tersedia' => [
+                'bg' => 'bg-green-100',
+                'text' => 'text-green-800',
+                'dot' => 'bg-green-400',
+                'label' => 'In Stock'
+            ],
+            'hampir_habis' => [
+                'bg' => 'bg-yellow-100',
+                'text' => 'text-yellow-800',
+                'dot' => 'bg-yellow-400',
+                'label' => 'Low Stock'
+            ],
+            'habis' => [
+                'bg' => 'bg-red-100',
+                'text' => 'text-red-800',
+                'dot' => 'bg-red-400',
+                'label' => 'Out of Stock'
+            ],
+            default => [
+                'bg' => 'bg-gray-100',
+                'text' => 'text-gray-800',
+                'dot' => 'bg-gray-400',
+                'label' => 'Unknown'
+            ]
+        };
+    }
+
+    public function scopeTersedia($query)
+    {
+        return $query->where('status_produk', 'tersedia')
+            ->where('stok_produk', '>', 10);
+    }
+
+    public function scopeHampirHabis($query)
+    {
+        return $query->where('status_produk', 'tersedia')
+            ->where('stok_produk', '>', 0)
+            ->where('stok_produk', '<=', 10);
+    }
+    public function scopeHabis($query)
+    {
+        return $query->where('status_produk', 'habis');
+    }
 }
