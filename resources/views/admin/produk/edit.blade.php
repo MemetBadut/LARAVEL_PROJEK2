@@ -4,7 +4,6 @@
     <div class="container mx-auto px-4">
         <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Edit Produk</h2>
-
             <form action="{{ route('admin.products.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

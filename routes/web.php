@@ -65,6 +65,7 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
         Route::resource('/products', AdminProductController::class);
+        Route::put('/products/{produk}', [AdminProductController::class, 'update'])->name('admin.products.update');
 
     });
 

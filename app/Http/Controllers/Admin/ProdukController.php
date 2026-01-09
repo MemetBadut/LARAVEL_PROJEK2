@@ -24,15 +24,15 @@ class ProdukController extends Controller
             $produks->habis();
         }
 
-        // if($request->filled('cari')){
-        //     $produks->where('nama_produk', 'like', '%'.$request->cari . '%');
-        // }
-
-        if($request->ajax()){
-            return view('admin.produk.produklist.produk_list', [
-                'produks' => $produks->paginate(10)->withQueryString()
-            ])->render();
+        if($request->filled('cari')){
+            $produks->where('nama_produk', 'like', '%'.$request->cari . '%');
         }
+
+        // if($request->ajax()){
+        //     return view('admin.produk.produklist.produk_list', [
+        //         'produks' => $produks->paginate(10)->withQueryString()
+        //     ])->render();
+        // }
 
 
         $produks = $produks->paginate(10)->withQueryString();
@@ -84,13 +84,8 @@ class ProdukController extends Controller
             'harga_produk' => 'required|numeric|min:0',
             'stok_produk' => 'required|integer|min:0',
             'deskripsi_produk' => 'nullable|string',
+            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        if ($request->hasFile('gambar')) {
-            $rules['gambar'] = 'sometimes|image|mime::jpeg,png,jpg,gif,svg|max:2048';
-        }
-        // Validasi Request
-        $validate = $request->validate($rules);
 
         //Handle Gambar Produk
         if ($request->hasFile('gambar')) {
