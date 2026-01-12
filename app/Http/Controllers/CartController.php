@@ -22,18 +22,18 @@ class CartController extends Controller
      */
     public function addToCart(Request $request, Produk $produk)
     {
-        $stok_produk = (int) $request->quantity ?? 1;
+        $qty = ((int) $request->quantity) ?? 1;
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$produk->id])) {
-            $cart[$produk->id]['stok_produk'] += $stok_produk;
+            $cart[$produk->id]['quantity'] += $qty;
         } else {
             $cart[$produk->id] = [
                 'produk_id' => $produk->id,
                 'nama_produk' => $produk->nama_produk,
                 'harga_produk' => $produk->harga_produk,
-                'stok_produk' => $stok_produk
+                'quantity' => $qty,
             ];
         }
 
@@ -73,7 +73,12 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity'] = (int) $request->quantity;
+            session()->put('cart', $cart);
+        }
     }
 
     /**

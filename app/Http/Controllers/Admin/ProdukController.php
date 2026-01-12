@@ -17,16 +17,24 @@ class ProdukController extends Controller
         $produks = Produk::query();
 
         if($request->status === 'tersedia'){
-            $produks->tersedia();
+            // $produks->tersedia();
+            $produks->where('stok_produk', '>', 10);
         }elseif($request->status === 'hampir_habis'){
-            $produks->hampirHabis();
+            // $produks->hampirHabis();
+            $produks->whereBetween('stok_produk', [1, 10]);
         }elseif($request->status === 'habis'){
-            $produks->habis();
+            // $produks->habis();
+            $produks->where('stok_produk',  0);
         }
 
         if($request->filled('cari')){
             $produks->where('nama_produk', 'like', '%'.$request->cari . '%');
         }
+
+        // $totalProduk = $produks->count();
+        // $totalProdukTersedia = $produks->where('stok_produk', '>', 10)->count();
+        // $totalProdukHampirHabis = $produks->whereBetween('stok_produk', [1, 10])->count();
+        // $totalProdukHabis = $produks->where('stok_produk', 0)->count();
 
         // if($request->ajax()){
         //     return view('admin.produk.produklist.produk_list', [

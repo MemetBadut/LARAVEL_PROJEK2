@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     // Untuk Keranjang
     Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
     Route::post('/keranjang/tambah/{produk}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::post('/keranjang/update/{produk}', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::patch('/keranjang/{produk}', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart'])->name('cart.delete');
 
     // Untuk checkout
@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 
     // Untuk Order
     Route::get('/orders', [OrderController::class, 'orderHistory'])->name('orders.index');
-    Route::post('/orders/{order}', [OrderController::class, 'orderHistory']);
+    Route::get('/orders/{order}', [OrderController::class, 'orderHistory']);
 });
 
 // Route untuk Vendor

@@ -3,7 +3,6 @@
 @section('content')
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-gray-800 mb-6">Keranjang Belanja</h2>
-
         @if (session('cart') && count(session('cart')) > 0)
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2">
@@ -23,7 +22,7 @@
                                 @php $total = 0; @endphp
                                 @foreach (session('cart') as $id => $item)
                                     @php
-                                        $subtotal = $item['harga_produk'] * $item['stok_produk'];
+                                        $subtotal = $item['harga_produk'] * $item['quantity'];
                                         $total += $subtotal;
                                     @endphp
                                     <tr>
@@ -31,8 +30,11 @@
                                         <td class="px-6 py-4 text-sm text-gray-900">Rp
                                             {{ number_format($item['harga_produk'], 0, ',', '.') }}</td>
                                         <td class="px-6 py-4">
-                                            <input type="number" value="{{ $item['stok_produk'] }}" min="1"
-                                                class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                                            <form action="{{ route('cart.update', $id) }}" method="POST">
+                                                @csrf
+                                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" onchange="this.form.submit"
+                                                    class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                                            </form>
                                         </td>
                                         <td class="px-6 py-4 text-sm font-semibold text-gray-900">Rp
                                             {{ number_format($subtotal, 0, ',', '.') }}</td>
