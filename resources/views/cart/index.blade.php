@@ -63,7 +63,7 @@
                             <span class="text-gray-600">Total:</span>
                             <strong class="text-2xl text-gray-900">Rp {{ number_format($total, 0, ',', '.') }}</strong>
                         </div>
-                        <a href="{{ route('cart.checkout') }}"
+                        <a href="{{ route('checkout.index') }}"
                             class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3 rounded-lg transition font-semibold">
                             Checkout
                         </a>

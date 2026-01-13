@@ -11,6 +11,7 @@ use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController
 use App\Http\Controllers\Vendor\ProdukController as VendorProductController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProdukController as AdminProductController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 
 // Rute untuk Login
@@ -38,8 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/keranjang/hapus/{produk}', [CartController::class, 'removeFromCart'])->name('cart.delete');
 
     // Untuk checkout
-    Route::get('/checkout', [CartController::class, 'checkoutForm'])->name('cart.checkout');
-    Route::post('/checkout', [CartController::class, 'processCheckout']);
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/pay', [CheckoutController::class, 'store'])->name('checkout.process');
 
     // Untuk Order
     Route::get('/orders', [OrderController::class, 'orderHistory'])->name('orders.index');
