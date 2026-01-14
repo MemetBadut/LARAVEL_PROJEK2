@@ -13,6 +13,8 @@ class CartController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
+        // session()->forget('cart'); (Ini untuk hapus session sementara forget())
+
 
         return view('cart.index', compact('cart'));
     }
@@ -22,9 +24,10 @@ class CartController extends Controller
      */
     public function addToCart(Request $request, Produk $produk)
     {
-        $qty = ((int) $request->quantity) ?? 1;
-
         $cart = session()->get('cart', []);
+        // $cart['test'] = 'masuk';
+
+        $qty = max(1, (int) $request->quantity);
 
         if (isset($cart[$produk->id])) {
             $cart[$produk->id]['quantity'] += $qty;
@@ -37,7 +40,10 @@ class CartController extends Controller
             ];
         }
 
+
         session()->put('cart', $cart);
+
+        // dd(session()->get('cart'));
 
         return redirect()->route('cart.index', [
             'page' => $request->page
@@ -75,7 +81,7 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if(isset($cart[$id])) {
+        if (isset($cart[$id])) {
             $cart[$id]['quantity'] = (int) $request->quantity;
             session()->put('cart', $cart);
         }

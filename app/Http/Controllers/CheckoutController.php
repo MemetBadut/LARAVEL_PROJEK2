@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\Alamat;
 use App\Models\Produk;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -16,9 +17,24 @@ class CheckoutController extends Controller
      */
     public function index(Produk $produk)
     {
-        $user = Auth::user();
+        $produk = Produk::whereIn('id', $produk)
+        ->select('gambar')
+        ->get()
+        ->keyBy('id');
 
-        return view('checkout.index', compact('produk', ['cart' => session('cart')], 'user'));
+        $user = Auth::user();
+        $cartItems = session()->get('cart', []);
+
+        $alamatUser = Alamat::where('user_id', $user->id)
+            ->where('is_default', true)
+            ->first();
+
+        if (empty($cartItems)) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Keranjang kosong, silakan tambahkan produk terlebih dahulu.');
+        }
+
+        return view('checkout.index', compact('cartItems', 'alamatUser', 'produk'));
     }
 
     /**
@@ -36,43 +52,53 @@ class CheckoutController extends Controller
     {
         $cart = session('cart', []);
 
-        if (!$cart || count($cart) == 0) {
-            return back()->with('error', 'Keranjang kosong, silakan tambahkan produk terlebih dahulu.');
+        if (empty($cart)) {
+            return redirect()->route('cart.index');
         }
 
-        try {
-            DB::transaction(function () use ($cart) {
-                $order = Order::create([
-                    'user_id' => Auth::id(),
-                    'total_harga' => collect($cart)->sum(function ($item) {
-                        return $item['harga_produk'] * $item['quantity'];
-                    }),
-                    'status' => 'pending',
-                ]);
+        $request->validate([
+            'alamat_user' => 'required|exists:tabel_alamat,id',
+        ]);
 
-                foreach ($cart as $item) {
-                    $produk = Produk::lockForUpdate()->find($item['produk_id']);
+        $address = Alamat::findOrFail($request->input('alamat_user'));
+        dd($address, $cart);
 
-                    if ($produk->stok_produk < $item['quantity']) {
-                        throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
-                    }
+        // try {
 
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'produk_id' => $produk->id,
-                        'quantity' => $item['stok_produk'],
-                        'harga_produk' => $item['harga_produk'],
-                    ]);
+        //     DB::transaction(function () use ($cart) {
+        //         $order = Order::create([
+        //             'user_id' => Auth::id(),
+        //             'total_harga' => collect($cart)->sum(function ($item) {
+        //                 return $item['harga_produk'] * $item['quantity'];
+        //             }),
+        //             'status' => 'pending',
+        //         ]);
 
-                    $produk->decrement('stok_produk', $item['stok_produk']);
-                }
-            });
-        } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat proses checkout: ' . $e->getMessage());
-        }
+        //         foreach ($cart as $item) {
+        //             $produk = Produk::lockForUpdate()->find($item['produk_id']);
+
+        //             if ($produk->stok_produk < $item['quantity']) {
+        //                 throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
+        //             }
+
+        //             OrderItem::create([
+        //                 'order_id' => $order->id,
+        //                 'produk_id' => $produk->id,
+        //                 'quantity' => $item['stok_produk'],
+        //                 'harga_produk' => $item['harga_produk'],
+        //             ]);
+
+        //             $produk->decrement('stok_produk', $item['stok_produk']);
+        //         }
+        //     });
+        // } catch (\Exception $e) {
+        //     return back()->with('error', 'Terjadi kesalahan saat proses checkout: ' . $e->getMessage());
+        // }
 
 
-        session()->forget('cart');
+        // session()->forget('cart');
+
+
 
         return redirect()->route('orders.index')
             ->with('success', 'Checkout berhasil! Pesanan Anda sedang diproses.');
@@ -81,9 +107,7 @@ class CheckoutController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * Show the form for editing the specified resource.

@@ -64,4 +64,8 @@ class User extends Authenticatable
     public function produk(){
         return $this->belongsToMany(Produk::class,  'tabel_pivot_favorites', 'user_id', 'produk_id');
     }
+
+    public function addresses(){
+        return $this->hasMany(Alamat::class);
+    }
 }
