@@ -10,19 +10,25 @@ class Order extends Model
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
 
-    protected $fillabel = [
+    protected $fillable = [
         'user_id',
         'total_harga',
+        'alamat_pengiriman',
+        'provinsi',
+        'kota',
+        'kode_pos',
         'order_status'
     ];
 
     protected $table = 'tabel_order';
 
-    public function customer() {
-        return $this->belongsTo(User::class, 'user_id');
+    public function customer()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function orderItems() {
-        return $this->hasMany(OrderItem::class, 'order_id');
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

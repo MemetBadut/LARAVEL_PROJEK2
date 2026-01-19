@@ -20,6 +20,10 @@ class OrderItem extends Model
     protected $table = 'tabel_order_barang';
 
     public function order() {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo(Order::class);
+    }
+
+    public function produk(){
+        return $this->belongsTo(Produk::class);
     }
 }

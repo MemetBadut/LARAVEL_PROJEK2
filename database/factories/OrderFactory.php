@@ -19,7 +19,11 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'total_harga' => 0,
+            'total_harga' => fake()->numberBetween(50000, 2000000),
+            'alamat_pengiriman' => fake('id_ID')->address(),
+            'provinsi' => fake('id_ID')->state(),
+            'kota' => fake('id_ID')->city(),
+            'kode_pos' => fake('id_ID')->postcode(),
             'order_status' => fake()->randomElement(['pending', 'diproses', 'terbayar', 'dibatalkan', 'selesai']),
         ];
     }

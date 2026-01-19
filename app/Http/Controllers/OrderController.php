@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -12,8 +13,16 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order::select('');
-        return view('order.index');
+        $orders = Order::select(['id', 'user_id', 'total_harga', 'order_status', 'alamat_pengiriman', 'provinsi', 'kota', 'kode_pos'])
+        ->with([
+            'customer:id,name',
+            'orderItems:id,order_id,produk_id,jumlah_barang,harga_satuan',
+            'orderItems.produk:id,nama_produk'
+        ])
+        ->where('user_id', Auth::id())
+        ->get();
+
+        return view('order.index', compact('orders'));
     }
 
     /**

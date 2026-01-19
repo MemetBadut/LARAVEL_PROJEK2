@@ -63,12 +63,12 @@
                     <h5 class="text-xl font-bold text-gray-800 mb-4">Ringkasan Pesanan</h5>
                     <hr class="mb-4">
                     @php $total = 0; @endphp
-                    @foreach (session('cart') as $item)
-                        @php $total += $item['harga'] * $item['quantity']; @endphp
+                    @foreach ($orders as $item)
+                        @php $total += $item['harga_satuan'] * $item['quantity']; @endphp
                         <div class="flex justify-between mb-3 text-sm">
-                            <span class="text-gray-600">{{ $item['nama'] }} ({{ $item['quantity'] }}x)</span>
+                            <span class="text-gray-600">{{ $item['nama_produk'] }} ({{ $item['jumlah_barang'] }}x)</span>
                             <span class="text-gray-900 font-semibold">Rp
-                                {{ number_format($item['harga'] * $item['quantity'], 0, ',', '.') }}</span>
+                                {{ number_format($item['harga_satuan'] * $item['quantity'], 0, ',', '.') }}</span>
                         </div>
                     @endforeach
                     <hr class="my-4">

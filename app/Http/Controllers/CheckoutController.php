@@ -21,7 +21,7 @@ class CheckoutController extends Controller
         $cartItems = session()->get('cart', []);
         $produkIds = collect($cartItems)->pluck('produk_id')->toArray();
         $subtotal = collect($cartItems)->sum(function ($item) {
-            return $item['harga_produk' ?? 0] * $item['quantity' ?? 0];
+            return ($item['harga_produk'] ?? 0) * ($item['quantity'] ?? 0);
         });
         $tax = $subtotal * 0.11; // PPN 11%
         $total = $subtotal + $tax;
@@ -66,11 +66,18 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index');
         }
 
-        $request->validate([
-            'alamat_user' => 'required|exists:tabel_alamat,id',
-        ]);
+        // $request->validate([
+        //     'alamat_user' => 'required|exists:tabel_alamat,id',
+        // ]);
 
-        $address = Alamat::findOrFail($request->input('alamat_user'));
+        // $address = Alamat::findOrFail('alamat_user');
+        $address = Alamat::where('user_id', Auth::id())
+            ->where('is_default', true)
+            ->first();
+
+        if (!$address) {
+            return back()->with('error', 'Alamat tidak ada atau tersedia!');
+        }
 
         try {
 
@@ -101,8 +108,8 @@ class CheckoutController extends Controller
                     OrderItem::create([
                         'order_id' => $order->id,
                         'produk_id' => $produk->id,
-                        'harga_produk' => $item['harga_produk'],
-                        'quantity' => $item['quantity'],
+                        'jumlah_barang' => $item['quantity'],
+                        'harga_satuan' => $item['harga_produk'],
                     ]);
 
                     $produk->decrement('stok_produk', $item['quantity']);

@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/pay', [CheckoutController::class, 'store'])->name('checkout.process');
 
     // Untuk Order
-    Route::get('/orders', [OrderController::class, 'orderHistory'])->name('orders.index');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'orderHistory']);
 });
 
