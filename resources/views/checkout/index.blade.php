@@ -72,7 +72,7 @@
                                                 <span
                                                     class="px-2 py-0.5 bg-blue-600 text-white text-xs font-semibold rounded">Main</span>
                                             </div>
-                                            <p class="text-gray-600 text-sm">{{ $defaultAddress->phone }}</p>
+                                            <p class="text-gray-600 text-sm">{{ $user->phone }}</p>
                                         </div>
                                     </div>
                                     <p class="text-gray-700 text-sm leading-relaxed">
@@ -109,13 +109,13 @@
                         </div>
 
                         <div class="divide-y divide-gray-200">
-                            @foreach ($cartItems as $item)
+                            @foreach ($cartItems as $produksId => $item)
                                 <div class="p-6">
                                     <div class="flex items-start space-x-4">
                                         <div
                                             class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden shrink-0">
-                                            @if ($item->produk->gambar)
-                                                 <img src="{{ asset('storage/' . $item->product->gambar1) }}"
+                                            @if ($produk[$produksId]->gambar)
+                                                <img src="{{ asset('storage/' . $produk[$produksId]->gambar ?? 'default.png') }}"
                                                     alt="{{ $item['nama_produk'] }}" class="w-full h-full object-cover">
                                             @else
                                                 <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
@@ -139,7 +139,8 @@
                                         </div>
                                         <div class="text-right">
                                             <p class="font-bold text-gray-900">Rp
-                                                {{ number_format($item['harga_produk'] * $item['quantity'], 0, ',', '.') }}</p>
+                                                {{ number_format($item['harga_produk'] * $item['quantity'], 0, ',', '.') }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -382,10 +383,14 @@
                                 </div>
 
                                 {{-- Place Order Button --}}
-                                <button
-                                    class="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 shadow-lg">
-                                    Place Order
-                                </button>
+                                <form action="{{ route('checkout.process') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 shadow-lg">
+                                        Place Order
+                                    </button>
+                                </form>
+
 
                                 {{-- Terms --}}
                                 <p class="text-xs text-gray-500 text-center mt-4">

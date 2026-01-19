@@ -12,6 +12,7 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $order = Order::select('');
         return view('order.index');
     }
 

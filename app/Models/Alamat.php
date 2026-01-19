@@ -9,8 +9,8 @@ class Alamat extends Model {
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'recipient_user',
-        'alamak_lengkap',
+        'recipient_name',
+        'alamat_lengkap',
         'daerah',
         'kota',
         'provinsi',
