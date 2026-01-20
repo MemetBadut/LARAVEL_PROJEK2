@@ -66,17 +66,24 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index');
         }
 
-        // $request->validate([
-        //     'alamat_user' => 'required|exists:tabel_alamat,id',
-        // ]);
 
-        // $address = Alamat::findOrFail('alamat_user');
         $address = Alamat::where('user_id', Auth::id())
             ->where('is_default', true)
             ->first();
 
         if (!$address) {
             return back()->with('error', 'Alamat tidak ada atau tersedia!');
+        }
+
+        foreach ($cart as $item) {
+            if (
+                !isset($item['produk_id'], $item['harga_produk'], $item['quantity'])
+            ) {
+                return back()->with(
+                    'error',
+                    'Data keranjang rusak. Silakan ulangi checkout.'
+                );
+            }
         }
 
         try {
@@ -101,9 +108,13 @@ class CheckoutController extends Controller
                 foreach ($cart as $item) {
                     $produk = Produk::lockForUpdate()->find($item['produk_id']);
 
-                    if ($produk->stok_produk < $item['quantity']) {
-                        throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
+                    if (!$produk) {
+                        throw new \Exception("Produk dengan ID {$item['produk_id']} tidak ditemukan");
                     }
+
+                    // if ($produk->stok_produk < $item['quantity']) {
+                    //     throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
+                    // }
 
                     OrderItem::create([
                         'order_id' => $order->id,

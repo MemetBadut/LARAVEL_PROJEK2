@@ -42,7 +42,7 @@ class Produk extends Model
     {
         return match (true) {
             $this->status_produk === 'tersedia'  && $this->stok_produk > 10 => 'tersedia',
-            $this->status_produk === 'tersedia' && $this->stok_produk > 0 || $this->stok_produk <= 10 => 'hampir_habis',
+            $this->status_produk === 'tersedia' && $this->stok_produk > 0 && $this->stok_produk <= 10 => 'hampir_habis',
             default => 'habis',
         };
     }
@@ -86,8 +86,7 @@ class Produk extends Model
     public function scopeHampirHabis($query)
     {
         return $query->where('status_produk', 'tersedia')
-            ->where('stok_produk', '>', 0)
-            ->where('stok_produk', '<=', 10);
+            ->whereBetween('stok_produk', [1, 10]);
     }
     public function scopeHabis($query)
     {

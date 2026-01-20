@@ -153,19 +153,18 @@
                                     <div class="text-sm text-gray-900">{{ $produk->stok_produk }} units</div>
                                 </td>
 
-                                @php
-                                    $badge = $produk->stock_badge
-                                @endphp
-
                                 {{-- Status --}}
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if ($produk->stok_produk > 10)
+                                    @php
+                                        $badge = $produk->stock_badge;
+                                    @endphp
+                                    @if ($produk->stok_produk <= 0)
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badge['bg'] }} {{ $badge['text'] }}">
                                             <span class="w-2 h-2 mr-1.5 rounded-full {{ $badge['dot'] }}"></span>
                                             {{ $badge['label'] }}
                                         </span>
-                                    @elseif($produk->stok_produk > 0 || $produk->stok_produk <= 10)
+                                    @elseif($produk->stok_produk <= 10)
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badge['bg'] }} {{ $badge['text'] }}">
                                             <span class="w-2 h-2 mr-1.5 rounded-full {{ $badge['dot'] }}"></span>
