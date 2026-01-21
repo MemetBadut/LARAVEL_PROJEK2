@@ -40,9 +40,11 @@ class Produk extends Model
 
     public function getStockStatusAttribute()
     {
+        $stok = max(0, $this->stok_produk);
+
         return match (true) {
-            $this->status_produk === 'tersedia'  && $this->stok_produk > 10 => 'tersedia',
-            $this->status_produk === 'tersedia' && $this->stok_produk > 0 && $this->stok_produk <= 10 => 'hampir_habis',
+            $this->status_produk === 'tersedia'  && $stok > 10 => 'tersedia',
+            $this->status_produk === 'tersedia' && $stok > 0 && $stok <= 10 => 'hampir_habis',
             default => 'habis',
         };
     }
@@ -79,17 +81,28 @@ class Produk extends Model
 
     public function scopeTersedia($query)
     {
-        return $query->where('status_produk', 'tersedia')
-            ->where('stok_produk', '>', 10);
+        return $query->where('stok_produk', '>', 10);
     }
 
     public function scopeHampirHabis($query)
     {
-        return $query->where('status_produk', 'tersedia')
-            ->whereBetween('stok_produk', [1, 10]);
+        return $query->whereBetween('stok_produk', [1, 9]);
     }
     public function scopeHabis($query)
     {
-        return $query->where('status_produk', 'habis');
+        return $query->where('stok_produk', '<=', 0);
+    }
+
+    public function scopeSearch($query, $keyword){
+        return $query->where('nama_produk', 'like', "%{$keyword}%");
+    }
+
+    public function scopeFilterStock($query, $range){
+        return match($range){
+            'high' => $query->where('stok_produk', '>', 50),
+            'medium' => $query->whereBetween('stok_produk', [11, 50]),
+            'low' => $query->whereBetween('stok_produk', [1, 10]),
+            'zero' => $query->whereBetween('stok_produk', '<', 0)
+        };
     }
 }

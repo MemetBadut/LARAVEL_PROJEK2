@@ -40,7 +40,7 @@
                                 </svg>
                             </div>
                             <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="Search products..."
+                                onchange="this.form.submit()" placeholder="Search products..."
                                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     </select>
 
                     {{-- Filter by Stock Range --}}
-                    <select name="stock_range"
+                    <select name="stock_range" onchange="this.form.submit()"
                         class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                         <option value="">All Stock</option>
                         <option value="high" {{ request('stock_range') == 'high' ? 'selected' : '' }}>High Stock (>50)
@@ -158,23 +158,23 @@
                                     @php
                                         $badge = $produk->stock_badge;
                                     @endphp
-                                    @if ($produk->stok_produk <= 0)
+                                    @if ($produk->stok_produk >= 10)
                                         <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badge['bg'] }} {{ $badge['text'] }}">
-                                            <span class="w-2 h-2 mr-1.5 rounded-full {{ $badge['dot'] }}"></span>
-                                            {{ $badge['label'] }}
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            <span class="w-2 h-2 mr-1.5 rounded-full bg-green-400"></span>
+                                            In Stock
                                         </span>
                                     @elseif($produk->stok_produk <= 10)
                                         <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badge['bg'] }} {{ $badge['text'] }}">
-                                            <span class="w-2 h-2 mr-1.5 rounded-full {{ $badge['dot'] }}"></span>
-                                            {{ $badge['label'] }}
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <span class="w-2 h-2 mr-1.5 rounded-full bg-yellow-400"></span>
+                                            Low Stock
                                         </span>
                                     @else
                                         <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badge['bg'] }} {{ $badge['text'] }}">
-                                            <span class="w-2 h-2 mr-1.5 rounded-full {{ $badge['dot'] }}"></span>
-                                            {{ $badge['label'] }}
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            <span class="w-2 h-2 mr-1.5 rounded-full bg-red-400"></span>
+                                            Out of Stock
                                         </span>
                                     @endif
                                 </td>

@@ -15,17 +15,28 @@ class DashboardController extends Controller
     {
         $query = Produk::query();
 
-        if($request->status === 'tersedia'){
+        // Untuk status barang (ini diambil berdasarkan jumlah stok dulu)
+        // Kalau ambil dari status langsung, ada bug (karena saat generate menggunakan randomElement)
+        if ($request->status === 'tersedia') {
             $query->tersedia();
-        }elseif($request->status === 'hampir_habis'){
+        } elseif ($request->status === 'hampir_habis') {
             $query->hampirHabis();
-        }elseif($request->status === 'habis'){
+        } elseif ($request->status === 'habis') {
             $query->habis();
         }
 
-        $latestProduks = $query->paginate(5)->withQueryString();
+        $query->when($request->filled('search'), function($q) use($request) {
+            $q->search(trim($request->search));
+        });
 
+        $query->when($request->filled('stock_range'), function($q) use($request){
+            $q->filterStock($request->stock_range);
+        });
+
+        $latestProduks = $query->paginate(5)->withQueryString();
         $totalProduk = Produk::sum('stok_produk');
+
+
 
         return view('admin.dashboard', compact('latestProduks', 'totalProduk'));
     }
