@@ -23,9 +23,6 @@ class CheckoutController extends Controller
         $subtotal = collect($cartItems)->sum(function ($item) {
             return ($item['harga_produk'] ?? 0) * ($item['quantity'] ?? 0);
         });
-        $tax = $subtotal * 0.11; // PPN 11%
-        $total = $subtotal + $tax;
-
 
         $produk = Produk::whereIn('id', $produkIds)
             ->select('id', 'nama_produk', 'harga_produk', 'gambar')
@@ -43,7 +40,6 @@ class CheckoutController extends Controller
         }
 
         // dd($produkIds);
-
         return view('checkout.index', compact('cartItems', 'alamatUser', 'produk', 'subtotal', 'total', 'user'));
     }
 
@@ -111,10 +107,6 @@ class CheckoutController extends Controller
                     if (!$produk) {
                         throw new \Exception("Produk dengan ID {$item['produk_id']} tidak ditemukan");
                     }
-
-                    // if ($produk->stok_produk < $item['quantity']) {
-                    //     throw new \Exception("Stok produk {$produk->nama_produk} tidak mencukupi.");
-                    // }
 
                     OrderItem::create([
                         'order_id' => $order->id,
