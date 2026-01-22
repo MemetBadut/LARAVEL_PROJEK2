@@ -77,14 +77,27 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateCart(Request $request, Produk $produk)
     {
+        $request->validate([
+            'quantity' => 'required|integer|min:1|max:' . $produk->stok_produk,
+        ]);
+
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = (int) $request->quantity;
-            session()->put('cart', $cart);
+        if(!isset($cart[$produk->id])){
+            return redirect()->route('cart.index')->with('error', 'Produk tidak ada di keranjang!');
         }
+
+        $cart[$produk->id]['quantity'] = (int) $request->quantity;
+        session()->put('cart', $cart);
+
+        // if (isset($cart[$produk->id])) {
+        //     $cart[$produk->id]['quantity'] = (int) $request->quantity;
+        //     session()->put('cart', $cart);
+        // }
+
+        return redirect()->route('cart.index');
     }
 
     /**

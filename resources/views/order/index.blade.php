@@ -12,7 +12,6 @@
         <div class="max-w-4xl mx-auto">
             {{-- Order Invoice Card --}}
             <div class="bg-white rounded-xl border border-gray-200 shadow-lg">
-
                 {{-- Invoice Header --}}
                 <div class="px-6 py-6 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-t-xl">
                     <div class="flex items-center justify-between mb-4">
@@ -39,53 +38,59 @@
                 {{-- Order Items --}}
                 <div class="p-6">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Order Items</h3>
-
                     <div class="space-y-4">
                         @php $subtotal = 0; @endphp
-                        @foreach ($orders as $item)
-                            @php
-                                $itemTotal = $item->harga_satuan * $item->jumlah_barang;
-                                $subtotal += $itemTotal;
-                            @endphp
-                            <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-                                {{-- Product Image --}}
-                                <div class="w-20 h-20 bg-white rounded-lg overflow-hidden shrink-0 border border-gray-200">
-                                    @if ($item->produk->gambar ?? null)
-                                        <img src="{{ asset('storage/' . $item->produk->gambar) }}"
-                                            alt="{{ $item->produk->nama_produk }}" class="w-full h-full object-cover">
-                                    @else
-                                        <div class="w-full h-full flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4">
-                                                </path>
-                                            </svg>
-                                        </div>
-                                    @endif
-                                </div>
+                        @foreach ($orders as $order)
+                            @foreach ($order->orderItems as $item)
+                                @php
+                                    $itemTotal = $item->harga_satuan * $item->jumlah_barang;
+                                    $subtotal += $itemTotal;
+                                @endphp
+                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    {{-- Product Image --}}
+                                    <div
+                                        class="w-20 h-20 bg-white rounded-lg overflow-hidden shrink-0 border border-gray-200">
+                                        @if ($item->produk->gambar ?? null)
+                                            <img src="{{ asset('storage/' . $item->produk->gambar) }}"
+                                                alt="{{ $item->produk->nama_produk }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center">
+                                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                        @endif
+                                    </div>
 
-                                {{-- Product Info --}}
-                                <div class="flex-1">
-                                    <h4 class="font-bold text-gray-900 mb-1">
-                                        {{ $item->produk->nama_produk ?? 'Product Name' }}
-                                    </h4>
-                                    <p class="text-sm text-gray-600">
-                                        {{ $item->jumlah_barang ?? 1 }} item(s) × Rp
-                                        {{ number_format($item->harga_satuan ?? 0, 0, ',', '.') }}
-                                    </p>
-                                    @if ($item->produk->sku ?? null)
-                                        <p class="text-xs text-gray-500 mt-1">SKU: {{ $item->produk->sku }}</p>
-                                    @endif
-                                </div>
+                                    {{-- @php
+                                        dd($item->produk->nama_produk);
+                                    @endphp --}}
 
-                                {{-- Item Total --}}
-                                <div class="text-right">
-                                    <p class="text-lg font-bold text-gray-900">
-                                        Rp {{ number_format($itemTotal, 0, ',', '.') }}
-                                    </p>
+                                    {{-- Product Info --}}
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-gray-900 mb-1">
+                                            {{ $item->produk->nama_produk ?? 'Product Name' }}
+                                        </h4>
+                                        <p class="text-sm text-gray-600">
+                                            {{ $item->jumlah_barang ?? 1 }} item(s) × Rp
+                                            {{ number_format($item->harga_satuan ?? 0, 0, ',', '.') }}
+                                        </p>
+                                        @if ($item->produk->sku ?? null)
+                                            <p class="text-xs text-gray-500 mt-1">SKU: {{ $item->produk->sku }}</p>
+                                        @endif
+                                    </div>
+
+                                    {{-- Item Total --}}
+                                    <div class="text-right">
+                                        <p class="text-lg font-bold text-gray-900">
+                                            Rp {{ number_format($itemTotal, 0, ',', '.') }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         @endforeach
                     </div>
                 </div>

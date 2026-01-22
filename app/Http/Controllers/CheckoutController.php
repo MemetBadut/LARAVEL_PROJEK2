@@ -23,6 +23,9 @@ class CheckoutController extends Controller
         $subtotal = collect($cartItems)->sum(function ($item) {
             return ($item['harga_produk'] ?? 0) * ($item['quantity'] ?? 0);
         });
+        $tax = $subtotal * 0.11;
+        $total = $subtotal + $tax;
+
 
         $produk = Produk::whereIn('id', $produkIds)
             ->select('id', 'nama_produk', 'harga_produk', 'gambar')

@@ -32,7 +32,8 @@
                                         <td class="px-6 py-4">
                                             <form action="{{ route('cart.update', $id) }}" method="POST">
                                                 @csrf
-                                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" onchange="this.form.submit"
+                                                @method('PATCH')
+                                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" onchange="this.form.submit()"
                                                     class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
                                             </form>
                                         </td>

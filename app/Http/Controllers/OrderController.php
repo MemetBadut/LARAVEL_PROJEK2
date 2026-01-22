@@ -13,10 +13,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::withDetail()
-        ->forUser(Auth::id())
-        ->get();
-
+        $orders = Order::query()
+            ->forUser(Auth::id())
+            ->withDetail()
+            ->orderBy('id', 'desc')
+            ->get();
+        // dd($orders);
         return view('order.index', compact('orders'));
     }
 
@@ -39,7 +41,7 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show( OrderController $order)
+    public function show(OrderController $order)
     {
         //
     }
@@ -47,7 +49,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( OrderController $order)
+    public function edit(OrderController $order)
     {
         //
     }

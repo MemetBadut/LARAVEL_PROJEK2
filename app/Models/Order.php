@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    /** @use HasFactory<\Database\Factories\OrderFactory> */
+    /** @use HasFactoqry<\Database\Factories\OrderFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -24,7 +24,7 @@ class Order extends Model
 
     public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function orderItems()
