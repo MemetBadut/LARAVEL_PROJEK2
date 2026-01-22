@@ -32,6 +32,7 @@ class DashboardController extends Controller
         $query->when($request->filled('stock_range'), function($q) use($request){
             $q->filterStock($request->stock_range);
         });
+        
 
         $latestProduks = $query->paginate(5)->withQueryString();
         $totalProduk = Produk::sum('stok_produk');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -12,9 +13,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = session()->get('cart', []);
-        // session()->forget('cart'); (Ini untuk hapus session sementara forget())
+        // Ini ambil session cart sesuai dengan User_id
+        $cartKey = 'cart_' . Auth::id();
+        $cart = session()->get($cartKey, []);
 
+        // session()->forget('cart'); (Ini untuk hapus session sementara forget())
 
         return view('cart.index', compact('cart'));
     }
@@ -29,6 +32,8 @@ class CartController extends Controller
 
         $qty = max(1, (int) $request->quantity);
 
+        // Ini untuk nambahin ke session cart.  Fungsi qty ini sebagai bayangan untuk jumlah produk
+        // Yang bakal masuk ke cart
         if (isset($cart[$produk->id])) {
             $cart[$produk->id]['quantity'] += $qty;
         } else {
@@ -39,7 +44,6 @@ class CartController extends Controller
                 'quantity' => $qty,
             ];
         }
-
 
         session()->put('cart', $cart);
 
@@ -79,12 +83,14 @@ class CartController extends Controller
      */
     public function updateCart(Request $request, Produk $produk)
     {
+        // Ini buat liat juga stok dari db, biar pas input qty ke cart
         $request->validate([
             'quantity' => 'required|integer|min:1|max:' . $produk->stok_produk,
         ]);
 
         $cart = session()->get('cart', []);
 
+        //Ini kondiis kalau id produk nya nggak sesuai 
         if(!isset($cart[$produk->id])){
             return redirect()->route('cart.index')->with('error', 'Produk tidak ada di keranjang!');
         }

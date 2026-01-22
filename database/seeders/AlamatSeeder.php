@@ -14,14 +14,18 @@ class AlamatSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::where('email', 'admin@example.com')->first();
-        if(!$user){
-            return;
-        }
+        User::chunk(100, function($users){
+            foreach($users as $user){
+                if($user->addresses()->exists()){
+                    continue;
+                }
 
-        Alamat::factory()->create([
-            'user_id' => $user->id,
-            'recipient_name' => $user->name,
-        ]);
+                Alamat::factory()->create([
+                    'user_id' => $user->id,
+                    'recipient_name' => $user->name,
+                    'is_default' => true,
+                ]);
+            }
+        });
     }
 }

@@ -20,7 +20,7 @@ class Alamat extends Model {
     protected $table = 'tabel_alamat';
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
 
