@@ -43,8 +43,8 @@ class Produk extends Model
         $stok = max(0, $this->stok_produk);
 
         return match (true) {
-            $this->status_produk === 'tersedia'  && $stok > 10 => 'tersedia',
-            $this->status_produk === 'tersedia' && $stok > 0 && $stok <= 10 => 'hampir_habis',
+            $stok > 10 => 'tersedia',
+            $stok <= 10 && $stok > 0  => 'hampir_habis',
             default => 'habis',
         };
     }
@@ -102,7 +102,7 @@ class Produk extends Model
             'high' => $query->where('stok_produk', '>', 50),
             'medium' => $query->whereBetween('stok_produk', [11, 50]),
             'low' => $query->whereBetween('stok_produk', [1, 10]),
-            'zero' => $query->whereBetween('stok_produk', '<', 0)
+            'zero' => $query->where('sto k_produk', '<=', 0)
         };
     }
 }

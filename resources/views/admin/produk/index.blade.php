@@ -23,8 +23,8 @@
             <form action="{{ route('admin.products.index') }}" method="GET">
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
-                        <input type="text" name="cari" id="cari" placeholder="Search products..." value="{{ request('cari') }}"
-                            onchange="this.form.submit()"
+                        <input type="text" name="cari" id="cari" placeholder="Search products..."
+                            value="{{ request('cari') }}" onchange="this.form.submit()"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                     <select
@@ -113,30 +113,16 @@
                                     <div class="text-sm text-gray-900">{{ $produk->stok_produk }} units</div>
                                 </td>
 
-                                {{-- @php
-                                    $produk =
-                                @endphp --}}
                                 {{-- Status --}}
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if ($produk->stok_produk > 10)
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            <span class="w-2 h-2 mr-1.5 rounded-full bg-green-400"></span>
-                                            In Stock
-                                        </span>
-                                    @elseif($produk->stok_produk <= 10)
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                            <span class="w-2 h-2 mr-1.5 rounded-full bg-yellow-400"></span>
-                                            Low Stock
-                                        </span>
-                                    @else
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                            <span class="w-2 h-2 mr-1.5 rounded-full bg-red-400"></span>
-                                            Out of Stock
-                                        </span>
-                                    @endif
+                                    @php
+                                        $badge = $produk->stock_badge;
+                                    @endphp
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badge['bg'] }}  {{ $badge['text'] }}">
+                                        <span class="w-2 h-2 mr-1.5 rounded-full {{ $badge['dot'] }}"></span>
+                                        {{ $badge['label'] }}
+                                    </span>
                                 </td>
 
                                 {{-- Actions --}}

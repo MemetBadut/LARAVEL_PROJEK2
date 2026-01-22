@@ -66,6 +66,8 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
         Route::resource('/products', AdminProductController::class);
+        Route::post('/products/create/', [AdminProductController::class, 'add'])->name('admin.products.create');
+        Route::patch('/producst/create/{produk}', [AdminProductController::class, 'store']);
         Route::put('/products/{produk}', [AdminProductController::class, 'update'])->name('admin.products.update');
 
     });
