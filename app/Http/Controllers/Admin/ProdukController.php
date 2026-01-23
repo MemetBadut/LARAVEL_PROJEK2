@@ -16,19 +16,19 @@ class ProdukController extends Controller
     {
         $produks = Produk::query();
 
-        if($request->status === 'tersedia'){
+        if ($request->status === 'tersedia') {
             // $produks->tersedia();
             $produks->where('stok_produk', '>', 10);
-        }elseif($request->status === 'hampir_habis'){
+        } elseif ($request->status === 'hampir_habis') {
             // $produks->hampirHabis();
             $produks->whereBetween('stok_produk', [1, 10]);
-        }elseif($request->status === 'habis'){
+        } elseif ($request->status === 'habis') {
             // $produks->habis();
             $produks->where('stok_produk',  0);
         }
 
-        if($request->filled('cari')){
-            $produks->where('nama_produk', 'like', '%'.$request->cari . '%');
+        if ($request->filled('cari')) {
+            $produks->where('nama_produk', 'like', '%' . $request->cari . '%');
         }
 
         // $totalProduk = $produks->count();
@@ -59,7 +59,35 @@ class ProdukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga_produk' => 'required|numeric|min:0',
+            'stok_produk' => 'required|numeric|min:0',
+            'deskripsi' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($validated['stok_produk'] = 0) {
+            $validated['status_produk'] = 'habis';
+        } elseif ($validated['stok_produk'] > 0 && $validated['stok_produk'] <= 10) {
+            $validated['status_produk'] = 'hampir_habis';
+        } else {
+            $validated['status_produk'] = 'tersedia';
+        }
+
+        if($request->hasFile('gambar')){
+            $validated['gambar'] = $request->file('gambar')
+            ->store('imageproduk', 'public');
+        }
+
+        Produk::create($validated);
+
+        return redirect()
+        ->route('admin.products.create')
+        ->with('success', 'Produk berhasil ditambahkan!');
+    }
 
     /**
      * Display the specified resource.
