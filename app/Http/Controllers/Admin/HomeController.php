@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Produk;
+use App\Http\Controllers\Controller;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,12 +13,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $produks = Produk::select(['id', 'nama_produk', 'harga_produk', 'gambar'])
-            ->orderBy('created_at', 'desc')
-            ->take(8)
-            ->get();
+        $user = 
 
-        return view('home', compact('produks'));
+        return view('admin.home');
     }
 
     /**

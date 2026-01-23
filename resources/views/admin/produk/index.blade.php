@@ -16,6 +16,7 @@
                 </svg>
                 Add Product
             </a>
+
         </div>
 
         {{-- Search & Filter --}}

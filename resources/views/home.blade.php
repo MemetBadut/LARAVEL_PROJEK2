@@ -4,7 +4,7 @@
     <div class="container mx-auto px-4">
         <!-- Hero Section -->
         <div class="bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-lg shadow-xl p-12 mb-8">
-            <h1 class="text-5xl font-bold mb-4">Selamat Datang di Toko Kami!</h1>
+            <h1 class="text-5xl font-bold mb-4">Selamat Datang di Toko Soto Pak Memet</h1>
             <p class="text-xl mb-6">Temukan produk berkualitas dengan harga terbaik</p>
             <a href="{{ route('products.index') }}"
                 class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
@@ -13,7 +13,20 @@
         </div>
 
         <!-- Featured Products -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">Produk Unggulan</h2>
+        <div class="flex justify-between">
+            <div class="flex">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Produk Unggulan</h2>
+            </div>
+            <div class="flex gap-1 border ">
+                <a href="{{ route('products.index') }}" class="">Lihat Produk Lainnya</a>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"
+                    fill="currentColor">
+                    <path
+                        d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+                    </path>
+                </svg>
+            </div>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($produks as $product)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">

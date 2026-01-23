@@ -9,8 +9,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
 use App\Http\Controllers\Vendor\ProdukController as VendorProductController;
+use App\Http\Controllers\Vendor\HomeController as VendorHomeController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProdukController as AdminProductController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 
@@ -52,9 +54,8 @@ Route::middleware(['auth', 'role:vendor'])
     ->prefix('vendor')
     ->name('vendor.')
     ->group(function () {
-
         Route::get('/dashboard', [VendorDashboardController::class, 'vendorDash'])->name('vendorDashboard');
-
+        Route::get('/home', [VendorHomeController::class, 'index'])->name('vendorHome');
         Route::resource('/products', VendorProductController::class);
     });
 
@@ -63,10 +64,9 @@ Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-
+        Route::get('/home', [AdminHomeController::class, 'index'])->name('adminHome');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('adminDashboard');
-
         Route::resource('/products', AdminProductController::class);
     });
 

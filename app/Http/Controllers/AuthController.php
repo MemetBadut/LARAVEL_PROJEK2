@@ -20,6 +20,17 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+
+            $user = Auth::user();
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.adminHome');
+            }
+
+            if($user->role === 'vendor'){
+                return redirect()->route('vendor.vendorHome');
+            }
+
             return redirect()->intended('/');
         }
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
@@ -49,7 +60,8 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
 
         $request->session()->invalidate();
