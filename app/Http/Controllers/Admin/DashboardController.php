@@ -13,31 +13,24 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Produk::query();
+        $latestProduks = Produk::with(['kategori', 'vendor'])
+            ->when($request->status, function ($q, $status) {
+                match ($status) {
+                    'tersedia' => $q->tersedia(),
+                    'hampir_habis' => $q->hampisHabis(),
+                    'habis' => $q->habis(),
+                    default => null,
+                };
+            })
+            ->when($request->filled('stock_range'), function ($q) use ($request) {
+                $q->filterStock($request->stock_range);
+            })
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->search(trim($request->search));
+            })->paginate(5)->withQueryString();
 
-        // Untuk status barang (ini diambil berdasarkan jumlah stok dulu)
-        // Kalau ambil dari status langsung, ada bug (karena saat generate menggunakan randomElement)
-        if ($request->status === 'tersedia') {
-            $query->tersedia();
-        } elseif ($request->status === 'hampir_habis') {
-            $query->hampirHabis();
-        } elseif ($request->status === 'habis') {
-            $query->habis();
-        }
 
-        $query->when($request->filled('search'), function($q) use($request) {
-            $q->search(trim($request->search));
-        });
-
-        $query->when($request->filled('stock_range'), function($q) use($request){
-            $q->filterStock($request->stock_range);
-        });
-        
-
-        $latestProduks = $query->paginate(5)->withQueryString();
         $totalProduk = Produk::sum('stok_produk');
-
-
 
         return view('admin.dashboard', compact('latestProduks', 'totalProduk'));
     }

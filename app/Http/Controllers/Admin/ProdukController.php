@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\KategoriProduk;
 use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
@@ -14,36 +15,28 @@ class ProdukController extends Controller
      */
     public function index(Request $request)
     {
-        $produks = Produk::query();
-
-        if ($request->status === 'tersedia') {
-            // $produks->tersedia();
-            $produks->where('stok_produk', '>', 10);
-        } elseif ($request->status === 'hampir_habis') {
-            // $produks->hampirHabis();
-            $produks->whereBetween('stok_produk', [1, 10]);
-        } elseif ($request->status === 'habis') {
-            // $produks->habis();
-            $produks->where('stok_produk',  0);
-        }
-
-        if ($request->filled('cari')) {
-            $produks->where('nama_produk', 'like', '%' . $request->cari . '%');
-        }
-
-        // $totalProduk = $produks->count();
-        // $totalProdukTersedia = $produks->where('stok_produk', '>', 10)->count();
-        // $totalProdukHampirHabis = $produks->whereBetween('stok_produk', [1, 10])->count();
-        // $totalProdukHabis = $produks->where('stok_produk', 0)->count();
-
-        // if($request->ajax()){
-        //     return view('admin.produk.produklist.produk_list', [
-        //         'produks' => $produks->paginate(10)->withQueryString()
-        //     ])->render();
-        // }
+        $produks = Produk::with(['kategori', 'vendor'])
+            ->when(
+                $request->status === 'tersedia',
+                fn($q) =>
+                $q->tersedia()
+            )
+            ->when(
+                $request->status === 'hampir_habis',
+                fn($q) =>
+                $q->hampirHabis()
+            )
+            ->when(
+                $request->status === 'habis',
+                fn($q) =>
+                $q->habis()
+            )
+            ->when($request->filled('cari'), fn($q) => $q->search($request->cari))
+            ->paginate(10)
+            ->withQueryString();
 
 
-        $produks = $produks->paginate(10)->withQueryString();
+
 
         return view('admin.produk.index', compact('produks'));
     }
@@ -53,7 +46,11 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        return view('admin.produk.create');
+        $kategori = KategoriProduk::with('children')
+            ->whereNull('parent_id')
+            ->get();
+
+        return view('admin.produk.create', compact('kategori'));
     }
 
     /**
@@ -77,16 +74,16 @@ class ProdukController extends Controller
             $validated['status_produk'] = 'tersedia';
         }
 
-        if($request->hasFile('gambar')){
+        if ($request->hasFile('gambar')) {
             $validated['gambar'] = $request->file('gambar')
-            ->store('imageproduk', 'public');
+                ->store('imageproduk', 'public');
         }
 
         Produk::create($validated);
 
         return redirect()
-        ->route('admin.products.create')
-        ->with('success', 'Produk berhasil ditambahkan!');
+            ->route('admin.products.create')
+            ->with('success', 'Produk berhasil ditambahkan!');
     }
 
     /**

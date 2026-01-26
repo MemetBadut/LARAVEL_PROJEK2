@@ -46,7 +46,6 @@
                             <a href="{{ route('admin.adminHome') }}" class="hover:text-blue-200 transition">
                                 Home
                             </a>
-                            <a href="{{ route('products.index') }}" class="hover:text-blue-200 transition">Produk</a>
                             <a href="{{ route('admin.adminDashboard') }}"
                                 class="hover:text-blue-200 transition">Dashboard</a>
 

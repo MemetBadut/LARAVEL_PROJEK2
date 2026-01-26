@@ -83,7 +83,6 @@ class Produk extends Model
     {
         return $query->where('stok_produk', '>', 10);
     }
-
     public function scopeHampirHabis($query)
     {
         return $query->whereBetween('stok_produk', [1, 9]);

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\KategoriProduk;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class KategoriProdukSeeder extends Seeder
 {
@@ -13,22 +14,31 @@ class KategoriProdukSeeder extends Seeder
      */
     public function run(): void
     {
-        $parent = KategoriProduk::factory()->create([
-            'nama_kategori' => 'Elektronik',
-            'parent_id' => null,
-            'slug' => 'elektronik',
-        ]);
 
-        KategoriProduk::factory()->create([
-            'nama_kategori' => 'Handphone',
-            'parent_id' => $parent->id,
-            'slug' => 'handphone',
-        ]);
+        $kategori = [
+            'Elektronik' => ['HP', 'Laptop', 'Aksesoris'],
+            'Makanan' => ['Snack', 'Frozen'],
+            'Fashion' => ['Pakaian Pria', 'Pakaian Wanita', 'Sepatu', 'Tas & Dompet', 'Aksesoris', 'Jam Tangan'],
+            'Home & Living' => ['Furniture', 'Dekorasi', 'Perelatan Dapur', 'Perlengkapan Rumah'],
+            'Sport & Outdoor' => ['Peralatan Olahraga', 'Outdoor & Camping', 'Fitness'],
+            'Health & Beauty' => ['Skincare', 'Kesehatan', 'Suplemen'],
+            'Books & Media' => ['Buku', 'Alat Tulis', 'Hobis & Koleksi'],
+        ];
 
-        KategoriProduk::factory()->create([
-            'nama_kategori' => 'Laptop',
-            'parent_id' => $parent->id,
-            'slug' => 'laptop',
-        ]);
+        foreach ($kategori as $parentName => $children) {
+            $parent = KategoriProduk::create([
+                'nama_kategori' => $parentName,
+                'parent_id' => null,
+                'slug' => Str::slug($parentName)
+            ]);
+
+            foreach($children as $childName){
+                KategoriProduk::create([
+                    'nama_kategori' => $childName,
+                    'parent_id' => $parent->id,
+                    'slug' => Str::slug($parent->slug . '-' . $childName)
+                ]);
+            }
+        }
     }
 }

@@ -19,8 +19,7 @@ class KategoriProdukFactory extends Factory
     {
         return [
             'nama_kategori' => fake()->word(),
-            'parent_id' => fake()->boolean(30)
-            ? KategoriProduk::factory() : null,
+            'parent_id' => null,
             'slug' => fake()->unique()->slug(),
         ];
     }

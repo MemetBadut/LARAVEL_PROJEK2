@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             AlamatSeeder::class,
             KategoriProdukSeeder::class,
             ProdukSeeder::class,
+            ShippingMethodSeeder::class,
             OrderSeeder::class,
             OrderItemSeeder::class,
             ReviewSeeder::class,
