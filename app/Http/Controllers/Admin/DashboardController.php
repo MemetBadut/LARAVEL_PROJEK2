@@ -17,7 +17,7 @@ class DashboardController extends Controller
             ->when($request->status, function ($q, $status) {
                 match ($status) {
                     'tersedia' => $q->tersedia(),
-                    'hampir_habis' => $q->hampisHabis(),
+                    'hampir_habis' => $q->hampirHabis(),
                     'habis' => $q->habis(),
                     default => null,
                 };

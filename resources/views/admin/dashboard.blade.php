@@ -27,72 +27,234 @@
         </div>
 
         {{-- Filter Bar --}}
-        <div class="bg-white rounded-xl border border-gray-200 p-4 mb-4">
-            <form method="GET" action="{{ url()->current() }}" class="space-y-4">
-                <div class="flex flex-col md:flex-row gap-3">
-                    {{-- Search --}}
-                    <div class="flex-1">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                            </div>
-                            <input type="text" name="search" value="{{ request('search') }}"
-                                onchange="this.form.submit()" placeholder="Search products..."
-                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+     {{-- Modern Filter Bar --}}
+<div class="bg-white rounded-2xl border border-gray-200 shadow-sm mb-6">
+    <form method="GET" action="{{ url()->current() }}">
+        {{-- Main Filter Row --}}
+        <div class="p-5 border-b border-gray-100">
+            <div class="flex flex-wrap items-center gap-3">
+                {{-- Search Bar --}}
+                <div class="flex-1 min-w-[280px] max-w-md">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
                         </div>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search products by name..."
+                            class="w-full pl-11 pr-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white">
                     </div>
+                </div>
 
-                    {{-- Filter by Status --}}
-                    <select name="status" onchange="this.form.submit()"
-                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-                        <option value="">All Status</option>
-                        <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                        <option value="hampir_habis" {{ request('status') == 'hampir_habis' ? 'selected' : '' }}> Hampir
-                            Habis</option>
-                        <option value="habis" {{ request('status') == 'habis' ? 'selected' : '' }}>Habis</option>
-                    </select>
-
-                    {{-- Filter by Stock Range --}}
-                    <select name="stock_range" onchange="this.form.submit()"
-                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-                        <option value="">All Stock</option>
-                        <option value="high" {{ request('stock_range') == 'high' ? 'selected' : '' }}>High Stock (>50)
-                        </option>
-                        <option value="medium" {{ request('stock_range') == 'medium' ? 'selected' : '' }}>Medium Stock
-                            (11-50)</option>
-                        <option value="low" {{ request('stock_range') == 'low' ? 'selected' : '' }}>Low Stock (1-10)
-                        </option>
-                        <option value="zero" {{ request('stock_range') == 'zero' ? 'selected' : '' }}>Out of Stock (0)
-                        </option>
-                    </select>
-
-                    {{-- Filter Button --}}
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z">
-                            </path>
-                        </svg>
-                        Filter
+                {{-- Quick Status Filters (Pills) --}}
+                <div class="flex flex-wrap gap-2">
+                    <button type="submit" name="status" value=""
+                        class="px-4 py-2 text-sm font-medium rounded-lg transition {{ !request('status') ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        All
                     </button>
+                    <button type="submit" name="status" value="tersedia"
+                        class="px-4 py-2 text-sm font-medium rounded-lg transition {{ request('status') == 'tersedia' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        In Stock
+                    </button>
+                    <button type="submit" name="status" value="hampir_habis"
+                        class="px-4 py-2 text-sm font-medium rounded-lg transition {{ request('status') == 'hampir_habis' ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        Low Stock
+                    </button>
+                    <button type="submit" name="status" value="habis"
+                        class="px-4 py-2 text-sm font-medium rounded-lg transition {{ request('status') == 'habis' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        Out of Stock
+                    </button>
+                </div>
 
-                    {{-- Reset Button --}}
+                {{-- More Filters Toggle --}}
+                <button type="button" onclick="toggleAdvancedFilters()"
+                    class="ml-auto px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                        </path>
+                    </svg>
+                    Advanced
+                    <svg id="advanced-arrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        {{-- Advanced Filters (Collapsible) --}}
+        <div id="advanced-filters" class="hidden p-5 bg-gray-50 border-b border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {{-- Category Filter --}}
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-2">Category</label>
+                    <select name="category" onchange="this.form.submit()"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                        <option value="">All Categories</option>
+                        @foreach($categories ?? [] as $category)
+                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->nama_kategori }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Stock Range Filter --}}
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-2">Stock Level</label>
+                    <select name="stock_range" onchange="this.form.submit()"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                        <option value="">All Stock Levels</option>
+                        <option value="high" {{ request('stock_range') == 'high' ? 'selected' : '' }}>High (>50)</option>
+                        <option value="medium" {{ request('stock_range') == 'medium' ? 'selected' : '' }}>Medium (11-50)</option>
+                        <option value="low" {{ request('stock_range') == 'low' ? 'selected' : '' }}>Low (1-10)</option>
+                        <option value="zero" {{ request('stock_range') == 'zero' ? 'selected' : '' }}>Out of Stock</option>
+                    </select>
+                </div>
+
+                {{-- Price Range Filter --}}
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-2">Price Range</label>
+                    <select name="price_range" onchange="this.form.submit()"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                        <option value="">All Prices</option>
+                        <option value="0-100000" {{ request('price_range') == '0-100000' ? 'selected' : '' }}>< Rp 100K</option>
+                        <option value="100000-500000" {{ request('price_range') == '100000-500000' ? 'selected' : '' }}>Rp 100K - 500K</option>
+                        <option value="500000-1000000" {{ request('price_range') == '500000-1000000' ? 'selected' : '' }}>Rp 500K - 1M</option>
+                        <option value="1000000-999999999" {{ request('price_range') == '1000000-999999999' ? 'selected' : '' }}>> Rp 1M</option>
+                    </select>
+                </div>
+
+                {{-- Sort By --}}
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-2">Sort By</label>
+                    <select name="sort" onchange="this.form.submit()"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                        <option value="">Default</option>
+                        <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name (A-Z)</option>
+                        <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name (Z-A)</option>
+                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price (Low to High)</option>
+                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price (High to Low)</option>
+                        <option value="stock_asc" {{ request('sort') == 'stock_asc' ? 'selected' : '' }}>Stock (Low to High)</option>
+                        <option value="stock_desc" {{ request('sort') == 'stock_desc' ? 'selected' : '' }}>Stock (High to Low)</option>
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        {{-- Active Filters & Actions --}}
+        <div class="px-5 py-3 bg-gray-50">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                {{-- Active Filters Display --}}
+                <div class="flex flex-wrap items-center gap-2">
+                    @if(request()->hasAny(['search', 'status', 'category', 'stock_range', 'price_range', 'sort']))
+                        <span class="text-xs font-medium text-gray-600">Active Filters:</span>
+
+                        @if(request('search'))
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                "{{ request('search') }}"
+                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="hover:text-blue-900">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+
+                        @if(request('status'))
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium">
+                                Status: {{ ucfirst(str_replace('_', ' ', request('status'))) }}
+                                <a href="{{ request()->fullUrlWithQuery(['status' => null]) }}" class="hover:text-green-900">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+
+                        @if(request('category'))
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-100 text-purple-800 rounded-md text-xs font-medium">
+                                Category
+                                <a href="{{ request()->fullUrlWithQuery(['category' => null]) }}" class="hover:text-purple-900">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+
+                        @if(request('stock_range'))
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-yellow-100 text-yellow-800 rounded-md text-xs font-medium">
+                                Stock: {{ ucfirst(request('stock_range')) }}
+                                <a href="{{ request()->fullUrlWithQuery(['stock_range' => null]) }}" class="hover:text-yellow-900">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+
+                        @if(request('price_range'))
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-md text-xs font-medium">
+                                Price Range
+                                <a href="{{ request()->fullUrlWithQuery(['price_range' => null]) }}" class="hover:text-indigo-900">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+                    @else
+                        <span class="text-xs text-gray-500">No active filters</span>
+                    @endif
+                </div>
+
+                {{-- Action Buttons --}}
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition">
+                        Apply Filters
+                    </button>
                     <a href="{{ url()->current() }}"
-                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition font-medium flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
-                            </path>
-                        </svg>
-                        Reset
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg transition">
+                        Clear All
                     </a>
                 </div>
-            </form>
+            </div>
         </div>
+    </form>
+</div>
+
+{{-- JavaScript for Toggle --}}
+<script>
+    function toggleAdvancedFilters() {
+        const filters = document.getElementById('advanced-filters');
+        const arrow = document.getElementById('advanced-arrow');
+
+        if (filters.classList.contains('hidden')) {
+            filters.classList.remove('hidden');
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            filters.classList.add('hidden');
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    // Auto-open advanced filters if any advanced filter is active
+    document.addEventListener('DOMContentLoaded', function() {
+        const hasAdvancedFilters = {{ request()->hasAny(['category', 'stock_range', 'price_range', 'sort']) ? 'true' : 'false' }};
+        if (hasAdvancedFilters) {
+            toggleAdvancedFilters();
+        }
+    });
+</script>
 
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">

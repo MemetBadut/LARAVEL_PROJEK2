@@ -18,25 +18,19 @@ class ProdukController extends Controller
         $produks = Produk::with(['kategori', 'vendor'])
             ->when(
                 $request->status === 'tersedia',
-                fn($q) =>
-                $q->tersedia()
+                fn($q) => $q->tersedia()
             )
             ->when(
                 $request->status === 'hampir_habis',
-                fn($q) =>
-                $q->hampirHabis()
+                fn($q) => $q->hampirHabis()
             )
             ->when(
                 $request->status === 'habis',
-                fn($q) =>
-                $q->habis()
+                fn($q) => $q->habis()
             )
             ->when($request->filled('cari'), fn($q) => $q->search($request->cari))
             ->paginate(10)
             ->withQueryString();
-
-
-
 
         return view('admin.produk.index', compact('produks'));
     }

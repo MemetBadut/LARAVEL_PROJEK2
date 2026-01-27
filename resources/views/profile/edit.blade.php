@@ -21,7 +21,7 @@
                     <!-- Profile Photo -->
                     <div class="mb-6 text-center">
                         <div
-                            class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-5xl font-bold text-white mb-4">
+                            class="w-32 h-32 mx-auto rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-5xl font-bold text-white mb-4">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
                         <label class="cursor-pointer text-blue-600 hover:text-blue-800 font-semibold">
