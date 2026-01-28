@@ -11,4 +11,6 @@ class Vendor extends Model
     use HasFactory;
     protected $fillable = ['nama_vendor', 'user_id'];
     protected $table = 'tabel_vendor';
+
+
 }

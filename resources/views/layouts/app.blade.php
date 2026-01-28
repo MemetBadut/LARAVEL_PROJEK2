@@ -54,8 +54,7 @@
                         @endif
                         @if (auth()->user()->role == 'vendor')
                             <a href="{{ route('vendor.vendorHome') }}" class="hover:text-blue-200 transition">Home</a>
-                            <a href="{{ route('vendor.vendorDashboard') }}" class="hover:text-blue-200 transition">Home
-                                Saya</a>
+                            <a href="{{ route('vendor.vendorDashboard') }}" class="hover:text-blue-200 transition">Produk Saya</a>
                         @endif
                     @endauth
 

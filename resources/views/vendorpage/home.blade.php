@@ -9,7 +9,7 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 class="text-4xl font-bold text-gray-900 mb-2">
-                            Welcome back, <span class="text-blue-600">{{ $vendor->name ?? 'Vendor' }}</span> 👋
+                            Welcome back, <span class="text-blue-600">{{ $users ?? 'Vendor' }}</span> 👋
                         </h1>
                         <p class="text-gray-600">Manage your store and track your performance</p>
                     </div>
@@ -17,7 +17,7 @@
                         <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-200">
                             <div
                                 class="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                                {{ strtoupper(substr($vendor->name ?? 'V', 0, 1)) }}
+                                {{ strtoupper(substr($users ?? 'V', 0, 1)) }}
                             </div>
                             <div>
                                 <p class="text-sm font-semibold text-gray-900">{{ $vendor->store_name ?? 'Your Store' }}</p>
@@ -40,16 +40,9 @@
                                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                             </svg>
                         </div>
-                        <span class="text-green-500 text-sm font-semibold flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                            </svg>
-                            12%
-                        </span>
                     </div>
                     <h3 class="text-gray-500 text-sm font-medium mb-1">Total Products</h3>
-                    <p class="text-3xl font-bold text-gray-900">{{ $totalProducts ?? 0 }}</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $totalStok ?? 0 }}</p>
                 </div>
 
                 {{-- Total Sales --}}
@@ -63,13 +56,6 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="text-green-500 text-sm font-semibold flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                            </svg>
-                            8%
-                        </span>
                     </div>
                     <h3 class="text-gray-500 text-sm font-medium mb-1">Total Revenue</h3>
                     <p class="text-3xl font-bold text-gray-900">Rp {{ number_format($totalRevenue ?? 0, 0, ',', '.') }}</p>
@@ -85,13 +71,6 @@
                                     d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                             </svg>
                         </div>
-                        <span class="text-red-500 text-sm font-semibold flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                            </svg>
-                            3%
-                        </span>
                     </div>
                     <h3 class="text-gray-500 text-sm font-medium mb-1">Total Orders</h3>
                     <p class="text-3xl font-bold text-gray-900">{{ $totalOrders ?? 0 }}</p>
@@ -111,7 +90,7 @@
                         <span class="text-yellow-600 text-sm font-semibold">Alert</span>
                     </div>
                     <h3 class="text-gray-500 text-sm font-medium mb-1">Low Stock Items</h3>
-                    <p class="text-3xl font-bold text-gray-900">{{ $lowStockCount ?? 0 }}</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $lowStok ?? 0 }}</p>
                 </div>
             </div>
 
@@ -228,7 +207,7 @@
                     </a>
 
                     {{-- Dashboard --}}
-                    <a href="#"{{-- {{ route('vendor.products.manage') }} --}}
+                    <a href="{{ route('vendor.vendorDashboard') }}"{{-- {{ route('vendor.products.manage') }} --}}
                         class="group relative bg-linear-to-br from-yellow-500 to-yellow-600 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:scale-105">
                         <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity"></div>
                         <div class="relative p-8">
@@ -254,7 +233,7 @@
                             <div class="flex items-center text-white text-sm font-medium">
                                 Manage Products
                                 <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">, 
+                                    stroke="currentColor" viewBox="0 0 24 24">,
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5l7 7-7 7"></path>
                                 </svg>

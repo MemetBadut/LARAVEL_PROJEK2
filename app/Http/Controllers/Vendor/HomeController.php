@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Http\Controllers\Controller;
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -12,7 +14,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('vendorpage.home');
+        $totalStok= Produk::sum('stok_produk');
+        $lowStok = Produk::hampirHabis()->sum('stok_produk');
+
+
+        $users = Auth::user()->name;
+
+        return view('vendorpage.home', compact('users', 'totalStok', 'lowStok'));
     }
 
     /**

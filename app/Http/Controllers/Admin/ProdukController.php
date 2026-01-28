@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\ProdukCountDTO;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,12 @@ class ProdukController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.produk.index', compact('produks'));
+            $countStok = new ProdukCountDTO(
+                stokReady: Produk::tersedia()->count(),
+                stokLow: Produk::hampirHabis()->count()
+            );
+
+        return view('admin.produk.index', compact('produks', 'countStok'));
     }
 
     /**

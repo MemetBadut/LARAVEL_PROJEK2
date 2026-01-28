@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\DTO\AdminDashboardSummaryDTO;
 
 class DashboardController extends Controller
 {
@@ -29,10 +31,17 @@ class DashboardController extends Controller
                 $q->search(trim($request->search));
             })->paginate(5)->withQueryString();
 
+            $dashboard = new AdminDashboardSummaryDTO(
+                totalProduk: Produk::sum('stok_produk'),
+                totalStok: Produk::count(),
+                habis: Produk::habis()->count(),
+                hampirHabis: Produk::hampirHabis()->count(),
+                penjualan: Order::where('order_status', 'selesai')->sum('total_harga'),
+                customer: Order::distinct('user_id')->count('user_id'),
+                pending: Order::where('order_status', 'pending')->count(),
+            );
 
-        $totalProduk = Produk::sum('stok_produk');
-
-        return view('admin.dashboard', compact('latestProduks', 'totalProduk'));
+        return view('admin.dashboard', compact('latestProduks','dashboard'));
     }
 
     /**

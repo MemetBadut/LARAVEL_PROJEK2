@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Http\Controllers\Controller;
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\DTO\VendorProdukDTO;
+use App\DTO\VendorProdukSummaryDTO;
 
 class ProdukController extends Controller
 {
@@ -12,7 +16,17 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        //
+        $vendorId = Auth::id();
+        $baseQuery = Produk::where('vendor_id', $vendorId);
+
+        $dto = new VendorProdukSummaryDTO(
+            totalProduk : (clone $baseQuery)->count(),
+            totalStok: (clone $baseQuery)->sum('stok_produk'),
+            hampirHabis: (clone $baseQuery)->hampirHabis()->count(),
+            produks: (clone $baseQuery)->latest()->get()
+        );
+
+        return view('vendorpage.produk.index', compact( 'dto'));
     }
 
     /**

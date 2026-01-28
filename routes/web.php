@@ -54,7 +54,7 @@ Route::middleware(['auth', 'role:vendor'])
     ->prefix('vendor')
     ->name('vendor.')
     ->group(function () {
-        Route::get('/dashboard', [VendorDashboardController::class, 'vendorDash'])->name('vendorDashboard');
+        Route::get('/dashboard', [VendorDashboardController::class, 'index'])->name('vendorDashboard');
         Route::get('/home', [VendorHomeController::class, 'index'])->name('vendorHome');
         Route::resource('/products', VendorProductController::class);
     });

@@ -32,6 +32,9 @@ class Produk extends Model
     {
         return $this->belongsTo(User::class, 'vendor_id');
     }
+    public function scopeByVendor($query, $vendorId) {
+        return $query->where('vendor_id', $vendorId);
+    }
 
     public function reviews()
     {
@@ -92,12 +95,14 @@ class Produk extends Model
         return $query->where('stok_produk', '<=', 0);
     }
 
-    public function scopeSearch($query, $keyword){
+    public function scopeSearch($query, $keyword)
+    {
         return $query->where('nama_produk', 'like', "%{$keyword}%");
     }
 
-    public function scopeFilterStock($query, $range){
-        return match($range){
+    public function scopeFilterStock($query, $range)
+    {
+        return match ($range) {
             'high' => $query->where('stok_produk', '>', 50),
             'medium' => $query->whereBetween('stok_produk', [11, 50]),
             'low' => $query->whereBetween('stok_produk', [1, 10]),

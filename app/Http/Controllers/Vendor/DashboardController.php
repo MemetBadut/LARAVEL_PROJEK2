@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Http\Controllers\Controller;
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -12,6 +14,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $query = Produk::query()
+        ->where('vendor_id', Auth::id())
+        ->when();
+
         return view('vendorpage.dashboard');
     }
 

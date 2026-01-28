@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('order_id')->constrained('tabel_order')->cascadeOnDelete();
             $table->string('tipe_pembayaran');
             $table->string('transaksi_id')->nullable();
             $table->string('status_transaksi')->nullable();

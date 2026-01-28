@@ -221,7 +221,7 @@
                     <div>
                         <p class="text-xs text-gray-500 uppercase tracking-wide">In Stock</p>
                         <p class="text-2xl font-bold text-green-600 mt-1">
-                            {{ $produks->where('stok_produk', '>', 10)->count() }}</p>
+                            {{ $countStok->stokReady }}</p>
                     </div>
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,7 +237,7 @@
                     <div>
                         <p class="text-xs text-gray-500 uppercase tracking-wide">Low Stock</p>
                         <p class="text-2xl font-bold text-yellow-600 mt-1">
-                            {{ $produks->where('stok_produk', '<=', 10)->count() }}</p>
+                            {{ $countStok->stokLow }}</p>
                     </div>
                     <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
