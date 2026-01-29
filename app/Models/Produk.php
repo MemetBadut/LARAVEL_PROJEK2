@@ -109,4 +109,19 @@ class Produk extends Model
             'zero' => $query->where('sto k_produk', '<=', 0)
         };
     }
+
+    public function scopeFilterPrice($query, $range){
+        return match($range){
+            'price_low' => $query->orderBy('harga_produk', 'asc'),
+            'price_high' => $query->orderBy('harga_produk', 'desc'),
+            default => $query,
+        };
+    }
+
+    public function scopeFilterName($query, $range){
+        return match($range){
+            'name_asc' => $query->orderBy('nama_produk', 'asc'),
+            'name_desc' => $query->orderBy('nama_produk', 'desc')
+        };
+    }
 }

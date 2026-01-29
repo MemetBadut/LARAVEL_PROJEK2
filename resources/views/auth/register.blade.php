@@ -126,33 +126,6 @@
                         </div>
                     </div>
 
-                    <!-- Role Selection -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Daftar Sebagai
-                        </label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <label
-                                class="relative flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition">
-                                <input type="radio" name="role" value="customer" checked
-                                    class="w-4 h-4 text-purple-600 focus:ring-purple-500">
-                                <div class="ml-3">
-                                    <p class="text-sm font-semibold text-gray-900">Customer</p>
-                                    <p class="text-xs text-gray-500">Belanja produk</p>
-                                </div>
-                            </label>
-                            <label
-                                class="relative flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition">
-                                <input type="radio" name="role" value="vendor"
-                                    class="w-4 h-4 text-purple-600 focus:ring-purple-500">
-                                <div class="ml-3">
-                                    <p class="text-sm font-semibold text-gray-900">Vendor</p>
-                                    <p class="text-xs text-gray-500">Jual produk</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
                     <!-- Terms & Conditions -->
                     <div class="flex items-start">
                         <input type="checkbox" id="terms" name="terms" required

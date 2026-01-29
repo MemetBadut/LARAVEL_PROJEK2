@@ -10,9 +10,18 @@ class ProdukController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Produk::with(['vendor' , 'kategori'])
+        ->when($request->filled('search'), function ($q) use ($request){
+            $q->search(trim($request->search));
+        })
+        ->when($request->filled('sortlist'), function ($q) use ($request){
+            $q->filterPrice($request->sortlist);
+        })
+        ->when($request->filled('sortlist'), function ($q) use ($request){
+            $q->filterName($request->sortlist);
+        })
         ->paginate(8);
 
         return view('products.index', compact('products'));

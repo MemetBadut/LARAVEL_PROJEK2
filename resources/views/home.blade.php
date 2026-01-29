@@ -13,19 +13,22 @@
         </div>
 
         <!-- Featured Products -->
-        <div class="flex justify-between">
-            <div class="flex">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">Produk Unggulan</h2>
+        {{-- Modern Section Header --}}
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-1">Produk Unggulan</h2>
+                <p class="text-gray-500 text-sm">Temukan produk terbaik pilihan kami</p>
             </div>
-            <div class="flex gap-1 border ">
-                <a href="{{ route('products.index') }}" class="">Lihat Produk Lainnya</a>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"
-                    fill="currentColor">
+            <a href="{{ route('products.index') }}"
+                class="group inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+                <span>Lihat Semua</span>
+                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24" fill="currentColor">
                     <path
                         d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
                     </path>
                 </svg>
-            </div>
+            </a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($produks as $product)
