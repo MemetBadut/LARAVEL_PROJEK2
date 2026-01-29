@@ -6,17 +6,18 @@ use App\Models\Order;
 use App\Models\Alamat;
 use App\Models\Produk;
 use App\Models\OrderItem;
-use App\Services\CheckoutService;
 use Illuminate\Http\Request;
+use App\Services\CheckoutService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CheckoutSummaryService;
 
 class CheckoutController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(CheckoutService $checkoutService)
+    public function index(CheckoutSummaryService $checkoutService)
     {
         try{
             $checkout = $checkoutService->summary();

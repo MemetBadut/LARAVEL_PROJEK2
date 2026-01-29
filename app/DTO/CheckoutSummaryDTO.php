@@ -3,7 +3,7 @@
 namespace App\DTO;
 
 use App\Models\Alamat;
-use Ramsey\Collection\Collection;
+use Illuminate\Support\Collection;
 
 class CheckoutSummaryDTO
 {

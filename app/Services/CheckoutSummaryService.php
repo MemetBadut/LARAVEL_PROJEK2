@@ -7,7 +7,7 @@ use App\Models\Produk;
 use App\DTO\CheckoutSummaryDTO;
 use Illuminate\Support\Facades\Auth;
 
-class CheckoutService
+class CheckoutSummaryService
 {
     const TAX_SERVICE = 0.11;
 

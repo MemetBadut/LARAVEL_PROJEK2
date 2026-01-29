@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="p-6">
-                            @if ($alamatUser)
+                            @if ($checkout->alamat)
                                 <div class="border-2 border-blue-500 rounded-lg p-4 bg-blue-50">
                                     <div class="flex items-start justify-between mb-2">
                                         <div>
@@ -104,7 +104,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
-                                Products Ordered ({{ count($cartItems) }} items)
+                                Products Ordered ({{ count($checkout->cartItems) }} items)
                             </h3>
                         </div>
 
