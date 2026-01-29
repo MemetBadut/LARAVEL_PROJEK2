@@ -12,7 +12,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $produks = Produk::select(['id', 'nama_produk', 'harga_produk', 'gambar'])
+        $produks = Produk::with(['kategori', 'vendor'])
             ->orderBy('created_at', 'desc')
             ->take(8)
             ->get();
@@ -39,9 +39,9 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+
     }
 
     /**

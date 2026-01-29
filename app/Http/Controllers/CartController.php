@@ -90,7 +90,7 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
-        //Ini kondiis kalau id produk nya nggak sesuai 
+        //Ini kondiis kalau id produk nya nggak sesuai
         if(!isset($cart[$produk->id])){
             return redirect()->route('cart.index')->with('error', 'Produk tidak ada di keranjang!');
         }

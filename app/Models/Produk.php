@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Produk extends Model
 {
@@ -39,6 +40,17 @@ class Produk extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'produk_id');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public static function booted(){
+        static::creating(function($produk){
+            $produk->slug = Str::slug($produk->nama_produk) . '-' . uniqid();
+        });
     }
 
     public function getStockStatusAttribute()

@@ -181,7 +181,7 @@
 
                             {{-- Action Buttons --}}
                             <div class="flex gap-2">
-                                <a href="{{ route('products.show', $produk->id) }}"
+                                <a href="{{ route('products.show', $produk->slug) }}"
                                     class="flex-1 bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-center px-3 py-2 rounded-lg text-sm font-medium transition transform hover:scale-105 shadow-sm">
                                     <svg class="w-3.5 h-3.5 inline mr-1" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -193,7 +193,7 @@
                                     </svg>
                                     Detail
                                 </a>
-                                <form action="{{ route('cart.add', $produk->id) }}" method="POST" class="flex-1">
+                                <form action="{{ route('cart.add', $produk->slug) }}" method="POST" class="flex-1">
                                     @csrf
                                     <button type="submit"
                                         class="w-full bg-linear-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition transform hover:scale-105 shadow-sm">

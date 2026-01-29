@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Alamat;
 use App\Models\Produk;
 use App\Models\OrderItem;
+use App\Services\CheckoutService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -15,35 +16,18 @@ class CheckoutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CheckoutService $checkoutService)
     {
-        $user = Auth::user();
-        $cartItems = session()->get('cart', []);
-        $produkIds = collect($cartItems)->pluck('produk_id')->toArray();
-        $subtotal = collect($cartItems)->sum(function ($item) {
-            return ($item['harga_produk'] ?? 0) * ($item['quantity'] ?? 0);
-        });
-        $tax = $subtotal * 0.11;
-        $total = $subtotal + $tax;
-
-
-        $produk = Produk::whereIn('id', $produkIds)
-            ->select('id', 'nama_produk', 'harga_produk', 'gambar')
-            ->get()
-            ->keyBy('id');
-
-        $alamatUser = Alamat::where('user_id', $user->id)
-            ->where('is_default', true)
-            ->first()
-            ?? Alamat::where('user_id', $user->id)->first();
-
-        if (empty($cartItems)) {
-            return redirect()->route('cart.index')
-                ->with('error', 'Keranjang kosong, silakan tambahkan produk terlebih dahulu.');
+        try{
+            $checkout = $checkoutService->summary();
+        }catch(\Exception $e){
+            return redirect()
+            ->route('cart.index')
+            ->with('error', $e->getMessage());
         }
 
         // dd($produkIds);
-        return view('checkout.index', compact('cartItems', 'alamatUser', 'produk', 'subtotal', 'total', 'user'));
+        return view('checkout.index', compact('checkout'));
     }
 
     /**

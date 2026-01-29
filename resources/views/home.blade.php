@@ -31,21 +31,21 @@
             </a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @foreach ($produks as $product)
+            @foreach ($produks as $produk)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    @if ($product->gambar)
-                        <img src="{{ asset('storage/' . $product->gambar) }}" class="w-full h-48 object-cover"
-                            alt="{{ $product->nama }}">
+                    @if ($produk->gambar)
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="w-full h-48 object-cover"
+                            alt="{{ $produk->nama }}">
                     @else
                         <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
                             <span class="text-gray-400">No Image</span>
                         </div>
                     @endif
                     <div class="p-4">
-                        <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $product->nama_produk }}</h5>
+                        <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $produk->nama_produk }}</h5>
                         <p class="text-2xl font-bold text-blue-600 mb-4">Rp
-                            {{ number_format($product->harga_produk, 0, ',', '.') }}</p>
-                        <a href="{{ route('products.show', $product->id) }}"
+                            {{ number_format($produk->harga_produk, 0, ',', '.') }}</p>
+                        <a href="{{ route('products.show', ['produk' => $produk->slug]) }}"
                             class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center px-4 py-2 rounded-lg transition">
                             Lihat Detail
                         </a>
