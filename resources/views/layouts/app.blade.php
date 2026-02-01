@@ -27,9 +27,20 @@
     <nav class="bg-blue-600 text-white shadow-lg">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <a href="{{ url('/') }}" class="text-2xl font-bold">
-                    {{ config('app.name', 'Toko Online') }}
-                </a>
+                <div class="group relative">
+                    <a href="{{ url('/') }}" class="text-2xl font-bold">
+                        {{ config('app.name', 'Toko Online') }}
+                    </a>
+                    <span
+                        class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                             bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                             opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                             transition-all duration-200 pointer-events-none z-50">
+                        🏠 Halaman Utama
+                        <span class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                    </span>
+                </div>
+
 
                 <!-- Mobile menu button -->
                 <button class="md:hidden" onclick="toggleMenu()">
@@ -43,41 +54,156 @@
                 <div class="hidden md:flex items-center space-x-6">
                     @auth
                         @if (auth()->user()->role == 'admin')
-                            <a href="{{ route('admin.adminHome') }}" class="hover:text-blue-200 transition">
-                                Home
-                            </a>
-                            <a href="{{ route('admin.adminDashboard') }}"
-                                class="hover:text-blue-200 transition">Dashboard</a>
+                            {{-- Admin Home --}}
+                            <div class="group relative">
+                                <a href="{{ route('admin.adminHome') }}" class="hover:text-blue-200 transition">
+                                    Home
+                                </a>
+                                <span
+                                    class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                             bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                             opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                             transition-all duration-200 pointer-events-none z-50">
+                                    🏠 Halaman Utama
+                                    <span
+                                        class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                                </span>
+                            </div>
 
-                            <a href="{{ route('admin.products.index') }}" class="hover:text-blue-200 transition">Kelola
-                                Produk</a>
+                            {{-- Admin Dashboard --}}
+                            <div class="group relative">
+                                <a href="{{ route('admin.adminDashboard') }}" class="hover:text-blue-200 transition">
+                                    Dashboard
+                                </a>
+                                <span
+                                    class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                             bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                             opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                             transition-all duration-200 pointer-events-none z-50">
+                                    📊 Dashboard Admin
+                                    <span
+                                        class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                                </span>
+                            </div>
+
+                            {{-- Kelola Produk --}}
+                            <div class="group relative">
+                                <a href="{{ route('admin.products.index') }}" class="hover:text-blue-200 transition">
+                                    Kelola Produk
+                                </a>
+                                <span
+                                    class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                             bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                             opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                             transition-all duration-200 pointer-events-none z-50">
+                                    📦 Manajemen Produk
+                                    <span
+                                        class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                                </span>
+                            </div>
                         @endif
+
                         @if (auth()->user()->role == 'vendor')
-                            <a href="{{ route('vendor.vendorHome') }}" class="hover:text-blue-200 transition">Home</a>
-                            <a href="{{ route('vendor.vendorDashboard') }}" class="hover:text-blue-200 transition">Produk Saya</a>
+                            {{-- Vendor Home --}}
+                            <div class="group relative">
+                                <a href="{{ route('vendor.vendorHome') }}" class="hover:text-blue-200 transition">
+                                    Home
+                                </a>
+                                <span
+                                    class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                             bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                             opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                             transition-all duration-200 pointer-events-none z-50">
+                                    🏠 Beranda Vendor
+                                    <span
+                                        class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                                </span>
+                            </div>
+
+                            {{-- Vendor Dashboard Icon --}}
+                            <div class="group relative">
+                                <a href="{{ route('vendor.vendorDashboard') }}"
+                                    class="hover:text-blue-200 transition block">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                        height="24" fill="currentColor">
+                                        <path
+                                            d="M22 20V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422V20H22ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z">
+                                        </path>
+                                    </svg>
+                                </a>
+                                <div
+                                    class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                            opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                            transition-all duration-200 pointer-events-none z-50">
+                                    <div
+                                        class="bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap">
+                                        🏪 Produk Vendor
+                                        <div
+                                            class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     @endauth
 
-                    <!-- Cart -->
-                    <a href="{{ route('cart.index') }}"
-                        class="flex items-center hover:text-blue-200 transition relative">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
-                        </svg>
-                        @if (session('cart'))
+                    {{-- Cart --}}
+                    <div class="group relative">
+                        <a href="{{ route('cart.index') }}"
+                            class="flex items-center hover:text-blue-200 transition relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                fill="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4.00436 6.41686L0.761719 3.17422L2.17593 1.76001L5.41857 5.00265H20.6603C21.2126 5.00265 21.6603 5.45037 21.6603 6.00265C21.6603 6.09997 21.6461 6.19678 21.6182 6.29L19.2182 14.29C19.0913 14.713 18.7019 15.0027 18.2603 15.0027H6.00436V17.0027H17.0044V19.0027H5.00436C4.45207 19.0027 4.00436 18.5549 4.00436 18.0027V6.41686ZM5.50436 23.0027C4.67593 23.0027 4.00436 22.3311 4.00436 21.5027C4.00436 20.6742 4.67593 20.0027 5.50436 20.0027C6.33279 20.0027 7.00436 20.6742 7.00436 21.5027C7.00436 22.3311 6.33279 23.0027 5.50436 23.0027ZM17.5044 23.0027C16.6759 23.0027 16.0044 22.3311 16.0044 21.5027C16.0044 20.6742 16.6759 20.0027 17.5044 20.0027C18.3328 20.0027 19.0044 20.6742 19.0044 21.5027C19.0044 22.3311 18.3328 23.0027 17.5044 23.0027Z">
+                                </path>
+                            </svg>
+                            @if (session('cart'))
+                                <span
+                                    class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {{ count(session('cart')) }}
+                                </span>
+                            @endif
+                        </a>
+                        <span
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                     bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                     opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                     transition-all duration-200 pointer-events-none z-50">
+                            🛒 Keranjang Belanja
                             <span
-                                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                {{ count(session('cart')) }}
-                            </span>
-                        @endif
-                    </a>
+                                class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                        </span>
+                    </div>
 
                     @guest
-                        <a href="{{ route('login') }}" class="hover:text-blue-200 transition">Login</a>
-                        <a href="{{ route('register') }}"
-                            class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition">Register</a>
+                        {{-- Login --}}
+                        <div class="group relative">
+                            <a href="{{ route('login') }}" class="hover:text-blue-200 transition">Login</a>
+                            <span
+                                class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                         bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                         opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                         transition-all duration-200 pointer-events-none z-50">
+                                🔑 Masuk ke Akun
+                                <span
+                                    class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                            </span>
+                        </div>
+
+                        {{-- Register --}}
+                        <div class="group relative">
+                            <a href="{{ route('register') }}"
+                                class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition">Register</a>
+                            <span
+                                class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                         bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl whitespace-nowrap
+                         opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100
+                         transition-all duration-200 pointer-events-none z-50">
+                                ✨ Daftar Akun Baru
+                                <span
+                                    class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></span>
+                            </span>
+                        </div>
                     @else
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open"
@@ -130,11 +256,12 @@
     <!-- Alert Messages -->
     @if (session('success'))
         <div class="container mx-auto px-4 mt-4">
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                role="alert">
                 <span class="block sm:inline">{{ session('success') }}</span>
                 <button onclick="this.parentElement.remove()" class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20">
+                    <svg class="fill-current h-6 w-6 text-green-500" role="button"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path
                             d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
                     </svg>

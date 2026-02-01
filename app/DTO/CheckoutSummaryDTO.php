@@ -17,5 +17,6 @@ class CheckoutSummaryDTO
         public readonly float $tax,
         public readonly float $total,
         public readonly ?Alamat $alamat,
+        public ?string $phone,
     ) {}
 }

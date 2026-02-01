@@ -43,7 +43,8 @@ class CheckoutSummaryService
             subtotal: $subtotal,
             tax: $tax,
             total: $subtotal + $tax,
-            alamat: $alamatUser
+            alamat: $alamatUser,
+            phone: $user->phone
         );
     }
 }

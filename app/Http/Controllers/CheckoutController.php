@@ -17,18 +17,18 @@ class CheckoutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(CheckoutSummaryService $checkoutService)
+    public function index(CheckoutSummaryService $service)
     {
-        try{
-            $checkout = $checkoutService->summary();
-        }catch(\Exception $e){
+        try {
+            $summary = $service->summary();
+        } catch (\Exception $e) {
             return redirect()
-            ->route('cart.index')
-            ->with('error', $e->getMessage());
+                ->route('cart.index')
+                ->with('error', $e->getMessage());
         }
 
         // dd($produkIds);
-        return view('checkout.index', compact('checkout'));
+        return view('checkout.index', compact('summary'));
     }
 
     /**
@@ -42,80 +42,35 @@ class CheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, CheckoutService $checkoutService)
     {
         $cart = session('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('cart.index');
+            return redirect()->route('cart.index')
+                ->with('error', 'Keranjang kosong');
         }
-
 
         $address = Alamat::where('user_id', Auth::id())
             ->where('is_default', true)
             ->first();
 
         if (!$address) {
-            return back()->with('error', 'Alamat tidak ada atau tersedia!');
-        }
-
-        foreach ($cart as $item) {
-            if (
-                !isset($item['produk_id'], $item['harga_produk'], $item['quantity'])
-            ) {
-                return back()->with(
-                    'error',
-                    'Data keranjang rusak. Silakan ulangi checkout.'
-                );
-            }
+            return back()->with('error', 'Alamat belum tersedia');
         }
 
         try {
-
-            DB::transaction(function () use ($cart, $address) {
-                $subtotal = collect($cart)->sum(function ($item) {
-                    return $item['harga_produk'] * $item['quantity'];
-                });
-                $tax = $subtotal * 0.11;
-                $total = $subtotal + $tax;
-
-                $order = Order::create([
-                    'user_id' => Auth::id(),
-                    'total_harga' => $total,
-                    'status' => 'pending',
-                    'alamat_pengiriman' => $address->alamat_lengkap,
-                    'provinsi' => $address->provinsi,
-                    'kota' => $address->kota,
-                    'kode_pos' => $address->kode_pos,
-                ]);
-
-                foreach ($cart as $item) {
-                    $produk = Produk::lockForUpdate()->find($item['produk_id']);
-
-                    if (!$produk) {
-                        throw new \Exception("Produk dengan ID {$item['produk_id']} tidak ditemukan");
-                    }
-
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'produk_id' => $produk->id,
-                        'jumlah_barang' => $item['quantity'],
-                        'harga_satuan' => $item['harga_produk'],
-                    ]);
-
-                    $produk->decrement('stok_produk', $item['quantity']);
-                }
-            });
-        } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat proses checkout: ' . $e->getMessage());
+            $order = $checkoutService->process($cart, $address);
+        } catch (\Throwable $e) {
+            return back()->with('error', $e->getMessage());
         }
-
 
         session()->forget('cart');
 
         return redirect()->route('orders.index')
-            ->with('success', 'Checkout berhasil! Pesanan Anda sedang diproses.');
+            ->with('success', 'Checkout berhasil');
     }
+
 
     /**
      * Display the specified resource.

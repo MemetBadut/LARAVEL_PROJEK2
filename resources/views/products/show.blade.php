@@ -90,7 +90,7 @@
             </div>
 
             <!-- Form Pembelian -->
-            <form action="{{ route('cart.add', $produk->id) }}" method="POST">
+            <form action="{{ route('cart.add', $produk->slug) }}" method="POST">
                 @csrf
                 @if($produk->stok_produk > 0)
                 <div class="mb-6">

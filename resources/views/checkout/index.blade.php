@@ -62,23 +62,23 @@
                         </div>
 
                         <div class="p-6">
-                            @if ($checkout->alamat)
+                            @if ($summary->alamat)
                                 <div class="border-2 border-blue-500 rounded-lg p-4 bg-blue-50">
                                     <div class="flex items-start justify-between mb-2">
                                         <div>
                                             <div class="flex items-center space-x-2 mb-1">
                                                 <span
-                                                    class="font-bold text-gray-900">{{ $alamatUser->recipient_name }}</span>
+                                                    class="font-bold text-gray-900">{{ $summary->alamat->recipient_name }}</span>
                                                 <span
                                                     class="px-2 py-0.5 bg-blue-600 text-white text-xs font-semibold rounded">Main</span>
                                             </div>
-                                            <p class="text-gray-600 text-sm">{{ $user->phone }}</p>
+                                            <p class="text-gray-600 text-sm">{{ $summary->phone }}</p>
                                         </div>
                                     </div>
                                     <p class="text-gray-700 text-sm leading-relaxed">
-                                        {{ $alamatUser->alamat_lengkap }}<br>
-                                        {{ $alamatUser->daerah }}, {{ $alamatUser->kota }}<br>
-                                        {{ $alamatUser->provinsi }} {{ $alamatUser->kode_pos }}
+                                        {{ $summary->alamat->alamat_lengkap }}<br>
+                                        {{ $summary->alamat->daerah }}, {{ $summary->alamat->kota }}<br>
+                                        {{ $summary->alamat->provinsi }} {{ $summary->alamat->kode_pos }}
                                     </p>
                                 </div>
                             @else
@@ -104,18 +104,21 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
-                                Products Ordered ({{ count($checkout->cartItems) }} items)
+                                Products Ordered ({{ count($summary->cartItems) }} items)
                             </h3>
                         </div>
 
                         <div class="divide-y divide-gray-200">
-                            @foreach ($cartItems as $produksId => $item)
+                            @foreach ($summary->cartItems as $produksId => $item)
+                                @php
+                                    $produk = $summary->produks->get($produksId)
+                                @endphp
                                 <div class="p-6">
                                     <div class="flex items-start space-x-4">
                                         <div
                                             class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden shrink-0">
-                                            @if ($produk[$produksId]->gambar)
-                                                <img src="{{ asset('storage/' . $produk[$produksId]->gambar ?? 'default.png') }}"
+                                            @if ($produk && $produk->gambar)
+                                                <img src="{{ asset('storage/' . $produk->gambar ?? 'default.png') }}"
                                                     alt="{{ $item['nama_produk'] }}" class="w-full h-full object-cover">
                                             @else
                                                 <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
@@ -336,8 +339,8 @@
                         <div class="p-6 space-y-4">
                             {{-- Subtotal --}}
                             <div class="flex justify-between text-gray-600">
-                                <span>Subtotal ({{ count($cartItems) }} items)</span>
-                                <span class="font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                <span>Subtotal ({{ count($summary->cartItems) }} items)</span>
+                                <span class="font-semibold">Rp {{ number_format($summary->subtotal, 0, ',', '.') }}</span>
                             </div>
 
                             {{-- Shipping --}}
@@ -378,7 +381,7 @@
                                     <span class="text-lg font-bold text-gray-900">Total Payment</span>
                                     <div class="text-right">
                                         <p class="text-2xl font-bold text-blue-600">Rp
-                                            {{ number_format($total, 0, ',', '.') }}</p>
+                                            {{ number_format($summary->total, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
 
