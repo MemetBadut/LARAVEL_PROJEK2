@@ -149,26 +149,29 @@
 
                 {{-- Shipping Address --}}
                 <div class="px-6 pb-6">
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                        <div class="flex items-start gap-3">
-                            <svg class="w-6 h-6 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            <div>
-                                <h4 class="font-bold text-gray-900 mb-2">Shipping Address</h4>
-                                <p class="text-gray-700 leading-relaxed">
-                                    {{ $shippingAddress ?? 'Jl. Contoh No. 123, Kelurahan Contoh' }}<br>
-                                    {{ $city ?? 'Jakarta Selatan' }}, {{ $postalCode ?? '12345' }}<br>
-                                    {{ $country ?? 'Indonesia' }}
-                                </p>
+                    @foreach ($orders as $order)
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-2">Shipping Address</h4>
+                                    <p class="text-gray-700 leading-relaxed">
+                                        {{ $order->alamat_pengiriman ?? 'Jl. Contoh No. 123, Kelurahan Contoh' }}<br>
+                                        {{ $order->kota ?? 'Jakarta Selatan' }}, {{ $order->kode_pos ?? '12345' }}<br>
+                                        {{ $order->provinsi ?? 'Indonesia' }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
                 </div>
 
                 {{-- Actions --}}

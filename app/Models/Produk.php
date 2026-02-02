@@ -33,13 +33,19 @@ class Produk extends Model
     {
         return $this->belongsTo(User::class, 'vendor_id');
     }
-    public function scopeByVendor($query, $vendorId) {
-        return $query->where('vendor_id', $vendorId);
-    }
 
     public function reviews()
     {
         return $this->hasMany(Review::class, 'produk_id');
+    }
+
+public function orderItems(){
+        return $this->hasMany(OrderItem::class, 'produk_id');
+}
+
+    public function scopeByVendor($query, $vendorId)
+    {
+        return $query->where('vendor_id', $vendorId);
     }
 
     public function getRouteKeyName()
@@ -47,8 +53,9 @@ class Produk extends Model
         return 'slug';
     }
 
-    public static function booted(){
-        static::creating(function($produk){
+    public static function booted()
+    {
+        static::creating(function ($produk) {
             $produk->slug = Str::slug($produk->nama_produk) . '-' . uniqid();
         });
     }
@@ -122,16 +129,18 @@ class Produk extends Model
         };
     }
 
-    public function scopeFilterPrice($query, $range){
-        return match($range){
+    public function scopeFilterPrice($query, $range)
+    {
+        return match ($range) {
             'price_low' => $query->orderBy('harga_produk', 'asc'),
             'price_high' => $query->orderBy('harga_produk', 'desc'),
             default => $query,
         };
     }
 
-    public function scopeFilterName($query, $range){
-        return match($range){
+    public function scopeFilterName($query, $range)
+    {
+        return match ($range) {
             'name_asc' => $query->orderBy('nama_produk', 'asc'),
             'name_desc' => $query->orderBy('nama_produk', 'desc')
         };

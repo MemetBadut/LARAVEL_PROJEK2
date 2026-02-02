@@ -52,7 +52,7 @@ class Order extends Model
             ->with([
                 'customer:id,name',
                 'orderItems:id,order_id,produk_id,jumlah_barang,harga_satuan',
-                'orderItems.produk:id,nama_produk'
+                'orderItems.produk:id,nama_produk,gambar'
             ]);
     }
 }

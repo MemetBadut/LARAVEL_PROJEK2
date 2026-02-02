@@ -7,6 +7,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\KategoriProduk;
+use App\Service\StockStatusService;
 use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
@@ -33,10 +34,10 @@ class ProdukController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-            $countStok = new ProdukCountDTO(
-                stokReady: Produk::tersedia()->count(),
-                stokLow: Produk::hampirHabis()->count()
-            );
+        $countStok = new ProdukCountDTO(
+            stokReady: Produk::tersedia()->count(),
+            stokLow: Produk::hampirHabis()->count()
+        );
 
         return view('admin.produk.index', compact('produks', 'countStok'));
     }
@@ -66,13 +67,8 @@ class ProdukController extends Controller
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        if ($validated['stok_produk'] = 0) {
-            $validated['status_produk'] = 'habis';
-        } elseif ($validated['stok_produk'] > 0 && $validated['stok_produk'] <= 10) {
-            $validated['status_produk'] = 'hampir_habis';
-        } else {
-            $validated['status_produk'] = 'tersedia';
-        }
+        $validated['status_produk'] =
+            StockStatusService::getStatus((int)$validated['stok_produk']);
 
         if ($request->hasFile('gambar')) {
             $validated['gambar'] = $request->file('gambar')
@@ -112,13 +108,16 @@ class ProdukController extends Controller
         //Cari Produk sesuai ID
         $produk = Produk::findOrFail($id);
 
-        $rules = $request->validate([
+        $validate = $request->validate([
             'nama_produk' => 'required|string|max:255',
             'harga_produk' => 'required|numeric|min:0',
             'stok_produk' => 'required|integer|min:0',
             'deskripsi_produk' => 'nullable|string',
-            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $validate['status_produk'] =
+            StockStatusService::getStatus((int)$validate['stok_produk']);
 
         //Handle Gambar Produk
         if ($request->hasFile('gambar')) {

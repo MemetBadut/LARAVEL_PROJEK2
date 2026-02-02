@@ -4,13 +4,13 @@ namespace App\Services\Tax;
 
 class TaxService
 {
-    public function calculate(float $subtotal): TaxResult{
+    public function calculate(float $subtotal): TaxResultDTO{
         $rate = 0.11;
 
         $taxAmount = $subtotal * $rate;
         $total = $subtotal + $taxAmount;
 
-        return new TaxResult(
+        return new TaxResultDTO(
             rate: $rate,
             amount: $taxAmount,
             subtotal: $subtotal,

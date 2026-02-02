@@ -16,8 +16,7 @@ class CheckoutService
             protected TaxService $taxService
         ){}
 
-    public function process(array $cart, Alamat $alamat)
-    {
+    public function process(array $cart, Alamat $alamat){
         return DB::transaction(function () use ($cart, $alamat) {
             $produkIds = collect($cart)->pluck('produk_id')->toArray();
 

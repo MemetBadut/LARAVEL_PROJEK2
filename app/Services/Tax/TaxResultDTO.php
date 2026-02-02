@@ -2,7 +2,7 @@
 
 namespace App\Services\Tax;
 
-class TaxResult
+class TaxResultDTO
 {
     /**
      * Create a new class instance.
